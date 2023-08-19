@@ -152,7 +152,7 @@ const Navbar = () => {
           >
             
             <HoverCard
-              width={600}
+              width={300}
               position="bottom"
               radius="md"
               shadow="md"
@@ -162,7 +162,7 @@ const Navbar = () => {
                 <a href="#" className={classes.link}>
                   <Center inline>
                     <Box component="span" mr={5}>
-                      Features
+                      About
                     </Box>
                     <IconChevronDown
                       size={16}
@@ -179,7 +179,7 @@ const Navbar = () => {
                   color={theme.colorScheme === "dark" ? "dark.5" : "gray.1"}
                 />
 
-                <SimpleGrid cols={2} spacing={0}>
+                <SimpleGrid cols={1} spacing={0}>
                   {links}
                 </SimpleGrid>
 
@@ -190,7 +190,7 @@ const Navbar = () => {
                         Learn more
                       </Text>
                       <Text size="xs" color="dimmed">
-                        Their food sources have decreased, and their numbers
+                        Check more details about Pyccel in our docs file
                       </Text>
                     </div>
                     <Button variant="default">Learn More</Button>
