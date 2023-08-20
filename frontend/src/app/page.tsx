@@ -36,8 +36,8 @@ export default function Home() {
   const uictx = useUIContext()
   return (
     <main className="flex w-full h-[calc(100vh-4rem)]">
-      <div className={`w-full flex ${uictx.isExtended ? "flex-col" : "flex-row"} ${uictx.revIsExtended ? "flex-col-reverse" : ""}`}>
-        <div className={`flex flex-col ${uictx.isExtended || uictx.revIsExtended ? "w-full" : "w-1/2"}`}>
+      <div className={`w-full flex  ${uictx.isExtended || uictx.revIsExtended ? "flex-col" : "flex-row"}`}>
+        <div className={`h-full flex flex-col ${uictx.isExtended ? "w-full" : "w-1/2"} ${uictx.revIsExtended ? "hidden": ""}`}>
           <EditNavbar />
 
           <MonacoEditor
@@ -53,7 +53,7 @@ export default function Home() {
 
         </div>
 
-        <div className={`flex flex-col ${uictx.revIsExtended || uictx.isExtended ? "w-full" : "w-1/2"}`}>
+        <div className={`h-full flex flex-col ${uictx.revIsExtended ? "w-full" : "w-1/2"} ${uictx.isExtended ? "hidden": ""}`}>
           <OutputNavbar />
           <MonacoEditor
             width="100%"
