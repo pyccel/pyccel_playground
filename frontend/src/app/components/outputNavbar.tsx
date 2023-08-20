@@ -33,6 +33,7 @@ import {
 } from "@tabler/icons-react";
 import { AiOutlineFullscreen, AiOutlineFullscreenExit } from "react-icons/ai";
 import { useState } from "react";
+import { useUIContext } from "@/context/ui.context";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -160,6 +161,13 @@ const OutputNavbar = () => {
     </UnstyledButton>
   ));
   const [isExtended, setIsExtended] = useState(false);
+  const uiCtx = useUIContext();
+  const handleExtended = () => {
+    uiCtx.setRevIsExtended(!uiCtx.revIsExtended);
+    if (uiCtx.isExtended) {
+      uiCtx.setIsExtended(false);
+    }
+  };
 
   return (
     <Box className="w-full">
@@ -175,8 +183,8 @@ const OutputNavbar = () => {
               { value: "JavaScript", label: "JavaScript" },
             ]}
           />
-          <Button color="gray" onClick={() => setIsExtended(!isExtended)}>
-            {isExtended ? <AiOutlineFullscreen className="font-black text-2xl"/> : <AiOutlineFullscreenExit className="font-black text-2xl"/>}
+          <Button color="gray" onClick={() => handleExtended()}>
+            {uiCtx.revIsExtended ? <AiOutlineFullscreen className="font-black text-2xl"/> : <AiOutlineFullscreenExit className="font-black text-2xl"/>}
           </Button>
         </Group>
       </Header>

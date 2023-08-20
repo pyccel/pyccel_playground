@@ -1,5 +1,6 @@
 "use client";
 
+import { useUIContext } from "@/context/ui.context";
 import {
   createStyles,
   Header,
@@ -159,8 +160,13 @@ const EditNavbar = () => {
     </UnstyledButton>
   ));
   const [isExtended, setIsExtended] = useState(false);
+  const uiCtx = useUIContext();
   const handeExtend = () => {
-    setIsExtended(!isExtended);
+    uiCtx.setIsExtended(!uiCtx.isExtended);
+    if (uiCtx.revIsExtended) {
+      uiCtx.setRevIsExtended(false);
+    }
+    console.log(uiCtx.isExtended);
   };
 
   return (
@@ -176,8 +182,8 @@ const EditNavbar = () => {
               { value: "JavaScript", label: "JavaScript" },
             ]}
           />
-          <Button color="gray" onClick={() => setIsExtended(!isExtended)}>
-            {isExtended ? <AiOutlineFullscreen className="font-black text-2xl"/> : <AiOutlineFullscreenExit className="font-black text-2xl"/>}
+          <Button color="gray" onClick={() => handeExtend()}>
+            {uiCtx.isExtended ? <AiOutlineFullscreen className="font-black text-2xl"/> : <AiOutlineFullscreenExit className="font-black text-2xl"/>}
           </Button>
         </Group>
       </Header>

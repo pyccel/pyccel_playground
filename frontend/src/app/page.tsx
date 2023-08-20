@@ -3,11 +3,14 @@ import Image from 'next/image'
 import EditNavbar from './components/editorNavbar'
 import OutputNavbar from './components/outputNavbar'
 import MonacoEditor from 'react-monaco-editor';
+import { useState } from 'react';
+import { useUIContext } from '../context/ui.context';
+
 
 export default function Home() {
-  const mobileClasses = ""
-  const extendedClasses = ""
-  const minimizedClasses = ""
+  const mobileClasses = "w-full flex flex-col justify-center"
+  const extendedClasses = "flex-col justify-center "
+  const minimizedClasses = "justify-center h-full border-r-2 md:border-r-black"
   const options = {
     autoIndent: 'full',
     contextmenu: true,
@@ -30,41 +33,39 @@ export default function Home() {
     automaticLayout: true,
 
   };
+  const uictx = useUIContext()
   return (
-    <main className="flex h-screen w-screen">
-      <div className='flex w-full h-full md:flex-row flex-col'>
-        <div className='md:w-1/2 w-full flex justify-center h-full border-r-2 md:border-r-black'>
-          <div className='w-full flex flex-col '>
-            <EditNavbar />
+    <main className="flex w-full h-[calc(100vh-4rem)]">
+      <div className={`w-full flex ${uictx.isExtended ? "flex-col" : "flex-row"} ${uictx.revIsExtended ? "flex-col-reverse" : ""}`}>
+        <div className={`flex flex-col ${uictx.isExtended || uictx.revIsExtended ? "w-full" : "w-1/2"}`}>
+          <EditNavbar />
 
-            <MonacoEditor
-              width="100%"
-              height="100%"
-              language="python"
-              theme="vs-dark"
-              value="// some comment"
-              options={options}
-            // onChange={console.log}
-            // editorDidMount={console.log}
-            />
+          <MonacoEditor
+            width="100%"
+            height="100%"
+            language="python"
+            theme="vs-dark"
+            value="// some comment"
+            options={options}
+          // onChange={console.log}
+          // editorDidMount={console.log}
+          />
 
-          </div>
         </div>
 
-        <div className='md:w-1/2 w-full flex justify-center h-full'>
-          <div className='w-full flex flex-col '>
-            <OutputNavbar />
-            <MonacoEditor
-              width="100%"
-              height="100%"
-              language="python"
-              theme="vs-dark"
-              value="// some comment"
-              options={options}
-            // onChange={console.log}
-            // editorDidMount={console.log}
-            />
-          </div>
+        <div className={`flex flex-col ${uictx.revIsExtended || uictx.isExtended ? "w-full" : "w-1/2"}`}>
+          <OutputNavbar />
+          <MonacoEditor
+            width="100%"
+            height="100%"
+            language="python"
+            theme="vs-dark"
+            value="// some comment"
+            options={options}
+          // onChange={console.log}
+          // editorDidMount={console.log}
+          />
+
         </div>
       </div>
     </main>

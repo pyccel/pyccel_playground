@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Navbar from "./components/navbar";
 import { MantineProvider } from "@mantine/core";
+import { UIContextProvider } from "@/context/ui.context";
 const inter = Inter({ subsets: ["latin"] });
 
 // export const metadata: Metadata = {
@@ -26,10 +27,12 @@ export default function RootLayout({
           colorScheme: "dark",
         }}
       >
-        <body className={inter.className}>
-          <Navbar />
-          {children}
-        </body>
+        <UIContextProvider>
+          <body className={inter.className}>
+            <Navbar />
+            {children}
+          </body>
+        </UIContextProvider>
       </MantineProvider>
     </html>
   );
