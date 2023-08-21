@@ -1,3 +1,4 @@
+import { Output } from "@/types/global";
 import {
     Dispatch,
     SetStateAction,
@@ -10,21 +11,50 @@ import {
   interface ICompileContext {
     isFilled: boolean;
     setIsFilled: Dispatch<SetStateAction<boolean>>;
+    input: string;
+    setInput: Dispatch<SetStateAction<string>>;
+    output: Output[];
+    setOutput: Dispatch<SetStateAction<Output[]>>;
+    selectedOutput: Output;
+    setSelectedOutput: Dispatch<SetStateAction<Output>>;
+    inLang: string;
+    setInLang: Dispatch<SetStateAction<string>>;
+    outLang: string;
+    setOutLang: Dispatch<SetStateAction<string>>;
   }
   
   export const CompileContext = createContext<ICompileContext | undefined>(undefined);
 
   const CompileContextProvider = ({ children }: { children: React.ReactNode }) => {
+    const [input, setInput] = useState("");
+    const [output, setOutput] = useState<Output[]>([]);
+    const [inLang, setInLang] = useState("python");
+    const [outLang, setOutLang] = useState("python");
     const [isFilled, setIsFilled] = useState(false);
-  
+    const [selectedOutput, setSelectedOutput] = useState<Output>({
+      PageTitle: "",
+      PageContent: "",
+    });
+
+
     const value = useMemo(
       () => ({
         isFilled,
         setIsFilled,
+        input,
+        setInput,
+        output,
+        setOutput,
+        inLang,
+        setInLang,
+        outLang,
+        setOutLang,
+        selectedOutput,
+        setSelectedOutput,
       }),
-      [isFilled,]
+      [isFilled, input, output, inLang, outLang, selectedOutput]
     );
-  
+
     return <CompileContext.Provider value={value}>{children}</CompileContext.Provider>;
   };
 

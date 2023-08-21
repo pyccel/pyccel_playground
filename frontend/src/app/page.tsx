@@ -5,12 +5,12 @@ import OutputNavbar from './components/outputNavbar'
 import MonacoEditor from 'react-monaco-editor';
 import { useState } from 'react';
 import { useUIContext } from '../context/ui.context';
+import { Button } from '@mantine/core';
+import { AiOutlineFullscreen, AiOutlineFullscreenExit } from 'react-icons/ai';
+import { useCompileContext } from '@/context/compile.context';
 
 
 export default function Home() {
-  const mobileClasses = "w-full flex flex-col justify-center"
-  const extendedClasses = "flex-col justify-center "
-  const minimizedClasses = "justify-center h-full border-r-2 md:border-r-black"
   const options = {
     autoIndent: 'full',
     contextmenu: true,
@@ -33,11 +33,29 @@ export default function Home() {
     automaticLayout: true,
 
   };
-  const uictx = useUIContext()
+  const uictx = useUIContext();
+  const compilectx = useCompileContext();
+  const handleExtend = () => {
+    uictx.setIsExtended(!uictx.isExtended);
+    if (uictx.revIsExtended) {
+      uictx.setRevIsExtended(false);
+    }
+    console.log(uictx.isExtended);
+  };
+  const handleRevExtend = () => {
+    uictx.setRevIsExtended(!uictx.revIsExtended);
+    if (uictx.isExtended) {
+      uictx.setIsExtended(false);
+    }
+  };
   return (
     <main className="flex w-full h-[calc(100vh-4rem)]">
       <div className={`w-full flex  ${uictx.isExtended || uictx.revIsExtended ? "flex-col" : "flex-row"}`}>
-        <div className={`h-full flex flex-col ${uictx.isExtended ? "w-full" : "w-1/2"} ${uictx.revIsExtended ? "hidden": ""}`}>
+        <div className={`h-full flex flex-col ${uictx.isExtended ? "w-full" : "w-1/2"} ${uictx.revIsExtended ? "hidden" : ""}`}>
+          <div className='h-auto w-full justify-end flex' >
+            {uictx.isExtended ? <AiOutlineFullscreen className="font-black text-xl bg-gray-700 hover:bg-gray-500 rounded-sm cursor-pointer" onClick={() => handleExtend()}/> :
+             <AiOutlineFullscreenExit className="font-black text-xl bg-gray-700 hover:bg-gray-500 rounded-sm cursor-pointer" onClick={() => handleExtend()}/>}
+          </div>
           <EditNavbar />
 
           <MonacoEditor
@@ -47,20 +65,23 @@ export default function Home() {
             theme="vs-dark"
             value="// some comment"
             options={options}
-          // onChange={console.log}
-          // editorDidMount={console.log}
+            onChange={(e) => compilectx.setInput(e)}
+          editorDidMount={console.log}
           />
-
         </div>
 
-        <div className={`h-full flex flex-col ${uictx.revIsExtended ? "w-full" : "w-1/2"} ${uictx.isExtended ? "hidden": ""}`}>
+        <div className={`h-full flex flex-col ${uictx.revIsExtended ? "w-full" : "w-1/2"} ${uictx.isExtended ? "hidden" : ""}`}>
+          <div className='h-auto w-full justify-end flex' >
+            {uictx.revIsExtended ? <AiOutlineFullscreen className="font-black text-xl bg-gray-700 hover:bg-gray-500 rounded-sm cursor-pointer" onClick={() => handleRevExtend()} /> : 
+            <AiOutlineFullscreenExit className="font-black text-xl bg-gray-700 hover:bg-gray-500 rounded-sm cursor-pointer" onClick={() => handleRevExtend()} />}
+          </div>
           <OutputNavbar />
           <MonacoEditor
             width="100%"
             height="100%"
             language="python"
             theme="vs-dark"
-            value="// some comment"
+            value={compilectx.selectedOutput.PageContent}
             options={options}
           // onChange={console.log}
           // editorDidMount={console.log}

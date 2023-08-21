@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import Navbar from "./components/navbar";
 import { MantineProvider } from "@mantine/core";
 import { UIContextProvider } from "@/context/ui.context";
+import { CompileContextProvider } from "@/context/compile.context";
 const inter = Inter({ subsets: ["latin"] });
 
 // export const metadata: Metadata = {
@@ -28,10 +29,12 @@ export default function RootLayout({
         }}
       >
         <UIContextProvider>
-          <body className={inter.className}>
-            <Navbar />
-            {children}
-          </body>
+          <CompileContextProvider>
+            <body className={inter.className}>
+              <Navbar />
+              {children}
+            </body>
+          </CompileContextProvider>
         </UIContextProvider>
       </MantineProvider>
     </html>
