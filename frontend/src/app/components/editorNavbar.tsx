@@ -110,13 +110,13 @@ const EditNavbar = () => {
     useDisclosure(false);
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const { classes, theme } = useStyles();
-  
+
 
   return (
     <Box className="w-full">
       <Header height={60} px="md" sx={{ width: "100%" }}>
         <Group position="apart" sx={{ height: "100%", width: "100%" }} className="w-full">
-          <Button>save/submit</Button>
+          <Button color="gray" radius="xs" uppercase>save/submit</Button>
           <Select
             placeholder="Pick a language"
             data={[
@@ -156,7 +156,7 @@ const EditNavbar = () => {
               <IconChevronDown size={16} color={theme.fn.primaryColor()} />
             </Center>
           </UnstyledButton>
-      
+
 
           <Divider
             my="sm"
