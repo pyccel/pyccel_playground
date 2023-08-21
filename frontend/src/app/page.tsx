@@ -48,6 +48,12 @@ export default function Home() {
       uictx.setIsExtended(false);
     }
   };
+
+  const handleChangeInput = (e: string) => {
+    console.log("this is the input", e);
+    compilectx.setInput(e);
+  };
+
   return (
     <main className="flex w-full h-[calc(100vh-4rem)]">
       <div className={`w-full flex  ${uictx.isExtended || uictx.revIsExtended ? "flex-col" : "flex-row"}`}>
@@ -65,8 +71,8 @@ export default function Home() {
             theme="vs-dark"
             value="// some comment"
             options={options}
-            onChange={(e) => compilectx.setInput(e)}
-          editorDidMount={console.log}
+            onChange={(e) => handleChangeInput(e) }
+            editorDidMount={console.log}
           />
         </div>
 
