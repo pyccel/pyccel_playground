@@ -42,8 +42,8 @@ import { useCompileContext } from "@/context/compile.context";
 const OutputNavbar = () => {
   const compilectx = useCompileContext();
   const outputArray: Output[] = [
-    { 
-      PageTitle: "Default page", 
+    {
+      PageTitle: "Default page",
       PageContent: "// just a comment"
     },
     {
@@ -71,12 +71,12 @@ const OutputNavbar = () => {
       setSelectedOutput(selected);
     }
   };
-  
+
 
   useEffect(() => {
     compilectx.setSelectedOutput(selectedOutput);
   }, [compilectx, selectedOutput]);
-  
+
   return (
     <Box className="w-full">
       <Header height={60} px="md" sx={{ width: "100%" }}>
@@ -95,6 +95,9 @@ const OutputNavbar = () => {
               { value: "Python", label: "Python" },
               { value: "JavaScript", label: "JavaScript" },
             ]}
+            
+            transitionProps={{ transition: 'pop-top-left', duration: 80, timingFunction: 'ease' }}
+            withinPortal
           />
         </Group>
       </Header>
