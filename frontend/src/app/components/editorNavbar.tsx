@@ -28,6 +28,7 @@ import {
 
 const EditNavbar = () => {
   const compilectx = useCompileContext();
+  const uictx = useUIContext();
   const handleSubmit = () => {
     console.log("fields", compilectx.inLang, compilectx.outLang, compilectx.input);
     if (compilectx.inLang && compilectx.outLang && compilectx.input) {
@@ -40,12 +41,13 @@ const EditNavbar = () => {
       alert("Please fill all the fields");
     }
   };
+  const headerHeight = uictx.isMobile ? 100 : 60;
 
   return (
     <Box className="w-full">
-      <Header height={60} px="md" sx={{ width: "100%" }}>
+      <Header height={headerHeight} px="md" sx={{ width: "100%" }}>
         <Group position="apart" sx={{ height: "100%", width: "100%" }} className="w-full">
-          <Button color="gray" radius="xs" uppercase onClick={handleSubmit}>save/submit</Button>
+          <Button color="gray" radius="xs" uppercase onClick={handleSubmit}>save/load</Button>
           <Select
             placeholder="Pick a language"
             data={[

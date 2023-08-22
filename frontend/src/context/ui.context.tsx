@@ -12,13 +12,16 @@ import {
     setIsExtended: Dispatch<SetStateAction<boolean>>;
     revIsExtended: boolean;
     setRevIsExtended: Dispatch<SetStateAction<boolean>>;
+    isMobile: boolean;
+    setIsMobile: Dispatch<SetStateAction<boolean>>;
   }
   
   export const UIContext = createContext<IUIContext | undefined>(undefined);
 
   const UIContextProvider = ({ children }: { children: React.ReactNode }) => {
-    const [isExtended, setIsExtended] = useState(false);
     const [revIsExtended, setRevIsExtended] = useState(false);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+    const [isExtended, setIsExtended] = useState(false);
   
     const value = useMemo(
       () => ({
@@ -26,8 +29,10 @@ import {
         setIsExtended,
         revIsExtended,
         setRevIsExtended,
+        isMobile,
+        setIsMobile,
       }),
-      [isExtended, revIsExtended]
+      [isExtended, revIsExtended, isMobile]
     );
   
     return <UIContext.Provider value={value}>{children}</UIContext.Provider>;

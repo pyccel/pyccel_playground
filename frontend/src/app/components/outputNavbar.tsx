@@ -41,6 +41,7 @@ import { useCompileContext } from "@/context/compile.context";
 
 const OutputNavbar = () => {
   const compilectx = useCompileContext();
+  const uictx = useUIContext();
   const outputArray: Output[] = [
     {
       PageTitle: "Default page",
@@ -71,6 +72,7 @@ const OutputNavbar = () => {
       setSelectedOutput(selected);
     }
   };
+  const headerHeight = uictx.isMobile ? 100 : 60;
 
 
   useEffect(() => {
@@ -79,7 +81,7 @@ const OutputNavbar = () => {
 
   return (
     <Box className="w-full">
-      <Header height={60} px="md" sx={{ width: "100%" }}>
+      <Header height={headerHeight} px="md" sx={{ width: "100%" }} withBorder>
         <Group position="apart" sx={{ height: "100%", width: "100%" }} className="w-full">
           <Select
             placeholder="Pick a Page"

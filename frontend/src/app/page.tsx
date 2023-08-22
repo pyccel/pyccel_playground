@@ -48,6 +48,20 @@ export default function Home() {
       uictx.setIsExtended(false);
     }
   };
+  const handleMobileExtend = () => {
+    uictx.setIsExtended(!uictx.isExtended);
+    if (uictx.revIsExtended && uictx.isExtended) {
+      uictx.setRevIsExtended(false);
+    }
+  }
+  const handleMobileRevExtend = () => {
+    uictx.setRevIsExtended(!uictx.revIsExtended);
+    if (uictx.isExtended && uictx.revIsExtended) {
+      uictx.setIsExtended(false);
+    }
+  }
+
+
 
   const handleChangeInput = (e: string) => {
     console.log("this is the input", e);
@@ -56,45 +70,79 @@ export default function Home() {
 
   return (
     <main className="flex w-full h-[calc(100vh-4rem)]">
-      <div className={`w-full flex  ${uictx.isExtended || uictx.revIsExtended ? "flex-col" : "flex-row"}`}>
-        <div className={`h-full flex flex-col ${uictx.isExtended ? "w-full" : "w-1/2"} ${uictx.revIsExtended ? "hidden" : ""}`}>
-          <div className='h-auto w-full justify-end flex' >
-            {uictx.isExtended ? <AiOutlineFullscreen className="font-black text-xl bg-gray-700 hover:bg-gray-500 rounded-sm cursor-pointer" onClick={() => handleExtend()}/> :
-             <AiOutlineFullscreenExit className="font-black text-xl bg-gray-700 hover:bg-gray-500 rounded-sm cursor-pointer" onClick={() => handleExtend()}/>}
+      {!uictx.isMobile &&
+        <div className={`w-full flex  ${uictx.isExtended || uictx.revIsExtended ? "flex-col" : "flex-row"}`}>
+          <div className={`h-full flex flex-col ${uictx.isExtended ? "w-full" : "w-1/2"} ${uictx.revIsExtended ? "hidden" : ""}`}>
+            <div className='h-auto w-full justify-end flex' >
+
+              {uictx.isExtended ? <AiOutlineFullscreen className="font-black text-xl bg-gray-700 hover:bg-gray-500 rounded-sm cursor-pointer" onClick={() => handleExtend()} /> :
+                <AiOutlineFullscreenExit className="font-black text-xl bg-gray-700 hover:bg-gray-500 rounded-sm cursor-pointer" onClick={() => handleExtend()} />}
+            </div>
+            <EditNavbar />
+
+            <MonacoEditor
+              width="100%"
+              height="100%"
+              language="python"
+              theme="vs-dark"
+              value="// some comment"
+              options={options}
+              onChange={(e) => handleChangeInput(e)}
+              editorDidMount={console.log}
+            />
           </div>
-          <EditNavbar />
 
-          <MonacoEditor
-            width="100%"
-            height="100%"
-            language="python"
-            theme="vs-dark"
-            value="// some comment"
-            options={options}
-            onChange={(e) => handleChangeInput(e) }
-            editorDidMount={console.log}
-          />
-        </div>
+          <div className={`h-full flex flex-col ${uictx.revIsExtended ? "w-full" : "w-1/2"} ${uictx.isExtended ? "hidden" : ""}`}>
+            <div className='h-auto w-full justify-end flex' >
+              {uictx.revIsExtended ? <AiOutlineFullscreen className="font-black text-xl bg-gray-700 hover:bg-gray-500 rounded-sm cursor-pointer" onClick={() => handleRevExtend()} /> :
+                <AiOutlineFullscreenExit className="font-black text-xl bg-gray-700 hover:bg-gray-500 rounded-sm cursor-pointer" onClick={() => handleRevExtend()} />}
+            </div>
+            <OutputNavbar />
+            <MonacoEditor
+              width="100%"
+              height="100%"
+              language="python"
+              theme="vs-dark"
+              value={compilectx.selectedOutput.PageContent}
+              options={options}
+            // onChange={console.log}
+            // editorDidMount={console.log}
+            />
 
-        <div className={`h-full flex flex-col ${uictx.revIsExtended ? "w-full" : "w-1/2"} ${uictx.isExtended ? "hidden" : ""}`}>
-          <div className='h-auto w-full justify-end flex' >
-            {uictx.revIsExtended ? <AiOutlineFullscreen className="font-black text-xl bg-gray-700 hover:bg-gray-500 rounded-sm cursor-pointer" onClick={() => handleRevExtend()} /> : 
-            <AiOutlineFullscreenExit className="font-black text-xl bg-gray-700 hover:bg-gray-500 rounded-sm cursor-pointer" onClick={() => handleRevExtend()} />}
           </div>
-          <OutputNavbar />
-          <MonacoEditor
-            width="100%"
-            height="100%"
-            language="python"
-            theme="vs-dark"
-            value={compilectx.selectedOutput.PageContent}
-            options={options}
-          // onChange={console.log}
-          // editorDidMount={console.log}
-          />
-
         </div>
-      </div>
+      }
+      {
+        uictx.isMobile && <div className="w-full flex flex-col">
+          <div className='h-screen w-full flex flex-col'>
+            <EditNavbar />
+            <MonacoEditor
+              width="100%"
+              height="100%"
+              language="python"
+              theme="vs-dark"
+              value="// some comment"
+              options={options}
+            // onChange={console.log}
+            // editorDidMount={console.log}
+            />
+          </div>
+            <div className="flex flex-col h-screen w-full">
+
+              <OutputNavbar />
+              <MonacoEditor
+                width="100%"
+                height="100%"
+                language="python"
+                theme="vs-dark"
+                value={compilectx.selectedOutput.PageContent}
+                options={options}
+              // onChange={console.log}
+              // editorDidMount={console.log}
+              />
+            </div>
+        </div>
+      }
     </main>
   )
 }
