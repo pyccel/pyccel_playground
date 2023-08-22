@@ -97,7 +97,7 @@ const OutputNavbar = () => {
               { value: "Python", label: "Python" },
               { value: "JavaScript", label: "JavaScript" },
             ]}
-            
+            defaultValue={"C"}
             transitionProps={{ transition: 'pop-top-left', duration: 80, timingFunction: 'ease' }}
             withinPortal
           />

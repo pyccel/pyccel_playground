@@ -3,24 +3,12 @@
 import { useCompileContext } from "@/context/compile.context";
 import { useUIContext } from "@/context/ui.context";
 import {
-  createStyles,
   Header,
-  HoverCard,
   Group,
   Button,
-  UnstyledButton,
-  Text,
-  SimpleGrid,
-  ThemeIcon,
-  Anchor,
-  Divider,
-  Center,
+
   Box,
-  Burger,
-  Drawer,
-  Collapse,
-  ScrollArea,
-  rem,
+
   Select,
 } from "@mantine/core";
 
@@ -32,7 +20,7 @@ const EditNavbar = () => {
   const handleSubmit = () => {
     console.log("fields", compilectx.inLang, compilectx.outLang, compilectx.input);
     if (compilectx.inLang && compilectx.outLang && compilectx.input) {
-      
+
       compilectx.setIsFilled(true);
       console.log(compilectx.selectedOutput);
     }
@@ -51,11 +39,13 @@ const EditNavbar = () => {
           <Select
             placeholder="Pick a language"
             data={[
-              { value: "C", label: "C" },
+              { value: "C", label: "C", selected: true },
               { value: "C++", label: "C++" },
               { value: "Python", label: "Python" },
               { value: "JavaScript", label: "JavaScript" },
             ]}
+            defaultValue={"C"}
+            transitionProps={{ transition: 'pop-top-left', duration: 80, timingFunction: 'ease' }}
           />
 
         </Group>
