@@ -20,7 +20,7 @@ import {
 
   const UIContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [revIsExtended, setRevIsExtended] = useState(false);
-    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
     const [isExtended, setIsExtended] = useState(false);
   
     const value = useMemo(
