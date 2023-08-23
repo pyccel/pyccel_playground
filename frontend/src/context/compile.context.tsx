@@ -27,6 +27,23 @@ import {
   
   export const CompileContext = createContext<ICompileContext | undefined>(undefined);
 
+  const loadMetadata = async () => {
+    try {
+      const instance = axios.create({
+        baseURL: "http://localhost:8000",
+      });
+      instance
+        .get("/metadata")
+        .then((res) => {
+          console.log(res.data);
+          return res.data;
+        }
+        );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const CompileContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [input, setInput] = useState("");
     const [output, setOutput] = useState<Output[]>([]);
