@@ -78,6 +78,15 @@ def Backend_compiler(input: str, language: str):
     d.Cleanup()
     return response
 
+def Pyccel_version():
+    command_builder = f"pyccel --version > /tmp/release_pyccel.txt"
+    os.system(command_builder)
+    with open("/tmp/release_pyccel.txt",'r') as release:
+      version = release.read()
+    version = version.split(" ")
+    if len(version) >= 2:
+      return {version[0]: version[1]}
+    return(None)
 
 
 
