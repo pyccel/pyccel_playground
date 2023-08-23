@@ -12,6 +12,7 @@ import {
   Select,
 } from "@mantine/core";
 import axios from "axios";
+import { useEffect } from "react";
 
 
 
@@ -49,7 +50,13 @@ const EditNavbar = () => {
         })
           .then((res) => {
             console.log(res.data);
-            compilectx.setOutput(res.data);
+            const outputArray = res.data.map((item) => {
+              return {
+                PageTitle: item.FileName,
+                PageContent: item.Content,
+              };
+            });
+            compilectx.setOutput(outputArray);
             compilectx.setIsLoading(false);
           }
           );
@@ -58,6 +65,11 @@ const EditNavbar = () => {
       }
     }
   };
+
+  useEffect(() => {
+    console.log("output", compilectx.output);
+  }
+  , [compilectx.output]);
 
 
 

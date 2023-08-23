@@ -42,34 +42,21 @@ import { useCompileContext } from "@/context/compile.context";
 const OutputNavbar = () => {
   const compilectx = useCompileContext();
   const uictx = useUIContext();
-  const outputArray: Output[] = [
-    {
-      PageTitle: "Default page",
-      PageContent: "// just a comment"
-    },
-    {
-      PageTitle: "Title 1",
-      PageContent: "Content 1",
-    },
-    {
-      PageTitle: "Title 2",
-      PageContent: "Content 2",
-    },
-  ];
   const [selectedOutput, setSelectedOutput] = useState<Output>({
     PageTitle: "",
     PageContent: "",
   });
 
-  const options = outputArray.map((item) => ({
+  const options = compilectx.output.map((item) => ({
     value: item.PageTitle,
     label: item.PageTitle,
   }));
 
   const handleSelectChange = (selectedValue: string) => {
-    const selected = outputArray.find((item) => item.PageTitle === selectedValue);
+    const selected = compilectx.output.find((item) => item.PageTitle === selectedValue);
     if (selected) {
       setSelectedOutput(selected);
+      console.log("selected output", selected);
     }
   };
   const headerHeight = uictx.isMobile ? 100 : 60;
