@@ -87,7 +87,6 @@ const OutputNavbar = () => {
             placeholder="Pick a Page"
             data={options}
             onChange={handleSelectChange}
-
           />
           <Select
             placeholder="Pick a language"
