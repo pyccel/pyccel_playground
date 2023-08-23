@@ -21,6 +21,8 @@ import {
     setInLang: Dispatch<SetStateAction<string>>;
     outLang: string;
     setOutLang: Dispatch<SetStateAction<string>>;
+    isLoading: boolean;
+    setIsLoading: Dispatch<SetStateAction<boolean>>;
   }
   
   export const CompileContext = createContext<ICompileContext | undefined>(undefined);
@@ -35,6 +37,7 @@ import {
       PageTitle: "",
       PageContent: "",
     });
+    const [isLoading, setIsLoading] = useState(false);
 
 
     const value = useMemo(
@@ -51,8 +54,10 @@ import {
         setOutLang,
         selectedOutput,
         setSelectedOutput,
+        isLoading,
+        setIsLoading,
       }),
-      [isFilled, input, output, inLang, outLang, selectedOutput]
+      [isFilled, input, output, inLang, outLang, selectedOutput, isLoading]
     );
 
     return <CompileContext.Provider value={value}>{children}</CompileContext.Provider>;

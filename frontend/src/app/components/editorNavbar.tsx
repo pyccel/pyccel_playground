@@ -11,16 +11,17 @@ import {
 
   Select,
 } from "@mantine/core";
+import axios from "axios";
 
 
 
 const EditNavbar = () => {
   const compilectx = useCompileContext();
   const uictx = useUIContext();
-  const handleSubmit = () => {
+
+  const checkFilled = () => {
     console.log("fields", compilectx.inLang, compilectx.outLang, compilectx.input);
     if (compilectx.inLang && compilectx.outLang && compilectx.input) {
-
       compilectx.setIsFilled(true);
       console.log(compilectx.selectedOutput);
     }
@@ -29,6 +30,37 @@ const EditNavbar = () => {
       alert("Please fill all the fields");
     }
   };
+  const handleSubmit = () => {
+    console.log("submitting");
+    checkFilled();
+    if (compilectx.isFilled) {
+      
+      compilectx.setIsLoading(true);
+      try {
+        const instance = axios.create({
+          baseURL: "http://localhost:8000",
+        });
+        instance
+        .post("/submit-python", null, {
+          params: {
+            text: compilectx.input,
+            language: "c",
+          },
+        })
+          .then((res) => {
+            console.log(res.data);
+            compilectx.setOutput(res.data);
+            compilectx.setIsLoading(false);
+          }
+          );
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+
+
   const headerHeight = uictx.isMobile ? 100 : 60;
 
   return (
