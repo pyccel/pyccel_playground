@@ -2,12 +2,13 @@
 import Image from 'next/image'
 import EditNavbar from './components/editorNavbar'
 import OutputNavbar from './components/outputNavbar'
-import MonacoEditor from 'react-monaco-editor';
+// import MonacoEditor from 'react-monaco-editor';
 import { useState } from 'react';
 import { useUIContext } from '../context/ui.context';
 import { Button } from '@mantine/core';
 import { AiOutlineFullscreen, AiOutlineFullscreenExit } from 'react-icons/ai';
 import { useCompileContext } from '@/context/compile.context';
+import Editor, { Monaco } from "@monaco-editor/react";
 
 
 export default function Home() {
@@ -31,7 +32,7 @@ export default function Home() {
     readOnly: false,
     cursorStyle: 'line',
     automaticLayout: true,
-
+  
   };
   const outOptions = {
     autoIndent: 'full',
@@ -102,10 +103,10 @@ export default function Home() {
             </div>
             <EditNavbar />
 
-            <MonacoEditor
+            <Editor
               width="100%"
               height="100%"
-              language="javascript"
+              language="python"
               theme="vs-dark"
               value="// some comment"
               options={inOptions}
@@ -120,7 +121,7 @@ export default function Home() {
                 <AiOutlineFullscreenExit className="font-black text-xl bg-gray-700 hover:bg-gray-500 rounded-sm cursor-pointer" onClick={() => handleRevExtend()} />}
             </div>
             <OutputNavbar />
-            <MonacoEditor
+            <Editor
               width="100%"
               height="100%"
               language="python"
@@ -138,7 +139,7 @@ export default function Home() {
         uictx.isMobile && <div className="w-full flex flex-col">
           <div className='h-screen w-full flex flex-col'>
             <EditNavbar />
-            <MonacoEditor
+            <Editor
               width="100%"
               height="100%"
               language="python"
@@ -152,7 +153,7 @@ export default function Home() {
             <div className="flex flex-col h-screen w-full">
 
               <OutputNavbar />
-              <MonacoEditor
+              <Editor
                 width="100%"
                 height="100%"
                 language="python"

@@ -1,42 +1,20 @@
 "use client";
 
 import {
-  createStyles,
   Header,
-  HoverCard,
   Group,
   Button,
-  UnstyledButton,
-  Text,
-  SimpleGrid,
-  ThemeIcon,
-  Anchor,
-  Divider,
-  Center,
   Box,
-  Burger,
-  Drawer,
-  Collapse,
-  ScrollArea,
-  rem,
   Select,
 } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import {
-  IconNotification,
   IconCode,
-  IconBook,
-  IconChartPie3,
-  IconFingerprint,
-  IconCoin,
-  IconChevronDown,
 } from "@tabler/icons-react";
-import { AiOutlineFullscreen, AiOutlineFullscreenExit } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { useUIContext } from "@/context/ui.context";
 import { Output } from "@/types/global";
 import { useCompileContext } from "@/context/compile.context";
-
+import axios from "axios";
 
 
 const OutputNavbar = () => {
@@ -61,6 +39,52 @@ const OutputNavbar = () => {
   };
   const headerHeight = uictx.isMobile ? 100 : 60;
 
+  const checkFilled = () => {
+    console.log("fields", compilectx.inLang, compilectx.outLang, compilectx.input);
+    if (compilectx.inLang && compilectx.outLang && compilectx.input) {
+      compilectx.setIsFilled(true);
+      console.log(compilectx.selectedOutput);
+    }
+    else {
+      compilectx.setIsFilled(false);
+      alert("Please fill all the fields");
+    }
+  };
+
+  const handleSubmit = () => {
+    console.log("submitting");
+    checkFilled();
+    if (compilectx.isFilled) {
+
+      compilectx.setIsLoading(true);
+      try {
+        const instance = axios.create({
+          baseURL: "http://localhost:8000",
+        });
+        instance
+          .post("/submit-python", null, {
+            params: {
+              text: compilectx.input,
+              language: "c",
+            },
+          })
+          .then((res) => {
+            console.log(res.data);
+            const outputArray = res.data.map((item) => {
+              return {
+                PageTitle: item.FileName,
+                PageContent: item.Content,
+              };
+            });
+            compilectx.setOutput(outputArray);
+            compilectx.setIsLoading(false);
+          }
+          );
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
 
   useEffect(() => {
     compilectx.setSelectedOutput(selectedOutput);
@@ -70,20 +94,17 @@ const OutputNavbar = () => {
     <Box className="w-full">
       <Header height={headerHeight} px="md" sx={{ width: "100%" }} withBorder>
         <Group position="apart" sx={{ height: "100%", width: "100%" }} className="w-full">
+          <Button
+            variant="outline"
+            color="gray"
+            leftIcon={<IconCode />}
+            onClick={() => handleSubmit()}
+          >
+            save/load</Button>
           <Select
             placeholder="Pick a Page"
             data={options}
             onChange={handleSelectChange}
-          />
-          <Select
-            placeholder="Pick a language"
-            data={[
-              { value: "C", label: "C" },
-              { value: "C++", label: "C++" },
-              { value: "Python", label: "Python" },
-              { value: "JavaScript", label: "JavaScript" },
-            ]}
-            defaultValue={"C"}
             transitionProps={{ transition: 'pop-top-left', duration: 80, timingFunction: 'ease' }}
             withinPortal
           />
