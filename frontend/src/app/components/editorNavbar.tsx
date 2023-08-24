@@ -89,7 +89,6 @@ const EditNavbar = () => {
             defaultValue={"C"}
             transitionProps={{ transition: 'pop-top-left', duration: 80, timingFunction: 'ease' }}
           />
-
         </Group>
       </Header>
     </Box>

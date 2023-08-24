@@ -11,7 +11,7 @@ import { useCompileContext } from '@/context/compile.context';
 
 
 export default function Home() {
-  const options = {
+  const inOptions = {
     autoIndent: 'full',
     contextmenu: true,
     fontFamily: 'monospace',
@@ -29,6 +29,28 @@ export default function Home() {
     selectOnLineNumbers: true,
     roundedSelection: false,
     readOnly: false,
+    cursorStyle: 'line',
+    automaticLayout: true,
+
+  };
+  const outOptions = {
+    autoIndent: 'full',
+    contextmenu: true,
+    fontFamily: 'monospace',
+    fontSize: 13,
+    lineHeight: 24,
+    hideCursorInOverviewRuler: true,
+    matchBrackets: 'always',
+    minimap: {
+      enabled: true,
+    },
+    scrollbar: {
+      horizontalSliderSize: 4,
+      verticalSliderSize: 18,
+    },
+    selectOnLineNumbers: true,
+    roundedSelection: false,
+    readOnly: true,
     cursorStyle: 'line',
     automaticLayout: true,
 
@@ -83,10 +105,10 @@ export default function Home() {
             <MonacoEditor
               width="100%"
               height="100%"
-              language="python"
+              language="javascript"
               theme="vs-dark"
               value="// some comment"
-              options={options}
+              options={inOptions}
               onChange={(e) => handleChangeInput(e)}
               editorDidMount={console.log}
             />
@@ -104,7 +126,7 @@ export default function Home() {
               language="python"
               theme="vs-dark"
               value={compilectx.selectedOutput.PageContent}
-              options={options}
+              options={outOptions}
             // onChange={console.log}
             // editorDidMount={console.log}
             />
@@ -122,7 +144,7 @@ export default function Home() {
               language="python"
               theme="vs-dark"
               value="// some comment"
-              options={options}
+              options={inOptions}
             // onChange={console.log}
             // editorDidMount={console.log}
             />
@@ -136,7 +158,7 @@ export default function Home() {
                 language="python"
                 theme="vs-dark"
                 value={compilectx.selectedOutput.PageContent}
-                options={options}
+                options={outOptions}
               // onChange={console.log}
               // editorDidMount={console.log}
               />

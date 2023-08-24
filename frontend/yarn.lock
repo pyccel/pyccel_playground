@@ -2285,13 +2285,13 @@ monaco-editor@^0.41.0, monaco-editor@~0.41.0:
   resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.41.0.tgz#2ba31e5af7e3ae93ac5d7467ec2772ef9b3d967f"
   integrity sha512-1o4olnZJsiLmv5pwLEAmzHTE/5geLKQ07BrGxlF4Ri/AXAc2yyDGZwHjiTqD8D/ROKUZmwMA28A+yEowLNOEcA==
 
-monaco-languageclient@^6.4.2:
-  version "6.4.2"
-  resolved "https://registry.yarnpkg.com/monaco-languageclient/-/monaco-languageclient-6.4.2.tgz#1368ea068db343fc4e8e9fae38422f25e798e9ce"
-  integrity sha512-DSs7BYdybIdT7gcGpxtSQOm/0E480tJJIkG4rb4f1yJ2ys0a7OR8pdVgF8xVHWks16szloT34H0tvC6xTJihOQ==
+monaco-languageclient@^6.4.4:
+  version "6.4.4"
+  resolved "https://registry.yarnpkg.com/monaco-languageclient/-/monaco-languageclient-6.4.4.tgz#60a6a124e239d10300e13ba1327c2e369fc25a16"
+  integrity sha512-gg1Q9iFZd6PrwPeL+eAAzv4exTdbynXr9duxb/v0XQ2+BUdOoCsqIsu7QjQ0zlcQVjM2/IadqMj844Brsw36/w==
   dependencies:
     monaco-editor "~0.41.0"
-    vscode "npm:@codingame/monaco-vscode-api@1.81.2"
+    vscode "npm:@codingame/monaco-vscode-api@1.81.5"
     vscode-jsonrpc "~8.1.0"
     vscode-languageclient "~8.1.0"
 
@@ -3302,10 +3302,10 @@ vscode-languageserver-types@3.17.3:
   resolved "https://registry.yarnpkg.com/vscode-languageserver-types/-/vscode-languageserver-types-3.17.3.tgz#72d05e47b73be93acb84d6e311b5786390f13f64"
   integrity sha512-SYU4z1dL0PyIMd4Vj8YOqFvHu7Hz/enbWtpfnVbJHU4Nd1YNYx8u0ennumc6h48GQNeOLxmwySmnADouT/AuZA==
 
-"vscode@npm:@codingame/monaco-vscode-api@1.81.2":
-  version "1.81.2"
-  resolved "https://registry.yarnpkg.com/@codingame/monaco-vscode-api/-/monaco-vscode-api-1.81.2.tgz#d5c009ce09417bbbe182cb04509d7f28eea77249"
-  integrity sha512-oPLcr7DT6IzdZfN7aF1canu3uYlOR5EFMVcqDJrbN4Ws6kA1f/b3RREDu0mmHLVU7QpQuqx10zZxneudJJ8cHg==
+"vscode@npm:@codingame/monaco-vscode-api@1.81.5":
+  version "1.81.5"
+  resolved "https://registry.yarnpkg.com/@codingame/monaco-vscode-api/-/monaco-vscode-api-1.81.5.tgz#6314e7e857ec169c12a3d66bb9397adfd88ff6f5"
+  integrity sha512-JVL82xTOg0IZETqjRG9t0yslxs4qTpQ7op5a0pj4imZSgqp1MgihivctxsOXSFiQxHF1hALKoqWBKaVTkvMr+g==
 
 watchpack@2.4.0:
   version "2.4.0"
