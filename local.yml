@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  front:
+    container_name: pyccel-front
+    build:
+      context: ./frontend/.
+      dockerfile: ../compose/front/Dockerfile
+      # network: host
+    volumes:
+      - ./frontend:/opt/app
+      - /opt/app/node_modules
+      - /opt/app/.next
+    ports:
+      - '3000:3000'
+    networks:
+      - PyccelNetwork
+
+networks:
+  PyccelNetwork:
+    driver: bridge

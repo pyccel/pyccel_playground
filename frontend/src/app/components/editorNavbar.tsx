@@ -71,8 +71,6 @@ const EditNavbar = () => {
   }
   , [compilectx.output]);
 
-
-
   const headerHeight = uictx.isMobile ? 100 : 60;
 
   return (
