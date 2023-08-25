@@ -1,6 +1,12 @@
 """
-This Module will execute pyccel on a code choosing the language and return both
-the file tranlated and the execution both python and the chosen language
+This module provides functions to compile Python code to other languages using Pyccel.
+
+Functions:
+
+* `read_files_to_json`: Reads all files in a directory and returns them as JSON.
+* `Compiler`: A class that encapsulates the functionality of compiling Python code to other languages using Pyccel.
+* `Backend_compiler`: A function that compiles Python code to another language using Pyccel and returns the results.
+* `Pyccel_version`: A function that returns the version of Pyccel.
 """
 import os
 import glob
@@ -30,17 +36,29 @@ def read_files_to_json(directory, file_types):
       filename_s =  re.sub("^.*?/__pyccel__/", "", file)
       data.append({"FileName": filename_s, "Content": fp.read()})
 
-  #return json.dumps(data)
   return data
 class Compiler():
+    """
+    A class that encapsulates the functionality of compiling Python code to other languages using Pyccel.
+
+    Attributes:
+      folder_name: The name of the temporary folder where the Python code is compiled.
+      file_path: The path to the Python file that is being compiled.
+
+    Methods:
+      Load_Python: Loads a Python file from input.
+      Compile_it: Compiles the Python file to another language using Pyccel.
+      Cleanup: Cleans up the temporary folder.
+    """
     def __init__(self):
         self.folder_name = f"Pyccel_{str(hash(self))}"
 
     def Load_Python(self, input :str):
         """
-            This Function Load Python file from input
-            1 Create a folder using folder_name as name of folder
-            2 Create a File in that folder with input that been loaded
+        Loads a Python file from input.
+
+        Args:
+          input: The Python code
         """
         self.folder_path = f"/tmp/{self.folder_name}"
         self.file_path = f"{self.folder_path}/code_python.py"
@@ -50,6 +68,15 @@ class Compiler():
             my_file.write(input)
 
     def Compile_it(self, language :str):
+        """
+        Translate the Python file to another language using Pyccel.
+
+        Args:
+        language: The language to compile the code to.
+
+        Returns:
+        A JSON object containing the Translated files.
+        """
         file_types = ["c", "h", "f90", "py"]
         command_builder = f"pyccel {self.file_path} --language {language}"
         print(command_builder)
@@ -60,19 +87,22 @@ class Compiler():
 
     def Cleanup(self):
         """
-            Cleanup the Folders - and ever"code.py"ything.
+            Cleanup the The /tmp/Pyccel folder used in compilation.
         """
         if os.path.exists(self.folder_path):
             os.system("rm -r {}".format(self.folder_path))
 
-# if __name__ == '__main__':
-#     d = Compiler()
-#     d.Load_Python("print('Bifenzi')\n")
-#     d.Compile_it('c')
-#     d.Cleanup()
-#     print(d.folder_name)
-
 def Backend_compiler(input: str, language: str):
+    """
+    Compiles Python code to another language using Pyccel and returns the results.
+
+    Args:
+      input: The Python code
+      language: The language to compile the code to.
+
+    Returns:
+      A JSON object containing the compiled code.
+    """
     response = ""
     d = Compiler()
     d.Load_Python(input)
@@ -81,6 +111,12 @@ def Backend_compiler(input: str, language: str):
     return response
 
 def Pyccel_version():
+    """
+    Returns the version of Pyccel.
+
+    Returns:
+      A dictionary containing the Pyccel version.
+    """
     command_builder = f"pyccel --version > /tmp/release_pyccel.txt"
     os.system(command_builder)
     with open("/tmp/release_pyccel.txt",'r') as release:

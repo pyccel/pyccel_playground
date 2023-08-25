@@ -40,6 +40,13 @@ async def pyccel_version():
         return {"PyccelBackend:": "Backend Couldn't get the version"}
     return version
 
+
+async def dompiler(item_text, item_language):
+  # This function is asynchronous
+  response =  compiler.Backend_compiler(item_text, item_language)
+  return response
+
+
 @app.post("/submit-python")
 async def submit_python(item : Item):
     """Submit a code and return translation."""
@@ -55,7 +62,8 @@ async def submit_python(item : Item):
             detail="Invalid language. Supported languages are: c, fortran, python.",
         )
 
-    response = compiler.Backend_compiler(item.text, item.language)
+    #response = await compiler.Backend_compiler(item.text, item.language)
+    response = await dompiler(item.text, item.language)
     if not response:
         return {"PyccelBackend:": "Backend Couldn't Compile the code"}
     return response
