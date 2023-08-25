@@ -5,6 +5,7 @@ the file tranlated and the execution both python and the chosen language
 import os
 import glob
 import json
+import re
 
 
 def read_files_to_json(directory, file_types):
@@ -21,12 +22,13 @@ def read_files_to_json(directory, file_types):
 
   all_files = glob.glob(f"{directory}/**/*")
   all_files += glob.glob(f"{directory}/*")
-  print(all_files)
+  #print(all_files)
   files = [i for i in all_files if i.endswith('.h') or i.endswith('.c') or i.endswith('.f90')]
   data = []
   for file in files:
     with open(file) as fp:
-      data.append({"FileName": file, "Content": fp.read()})
+      filename_s =  re.sub("^.*?/__pyccel__/", "", file)
+      data.append({"FileName": filename_s, "Content": fp.read()})
 
   #return json.dumps(data)
   return data

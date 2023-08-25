@@ -1,10 +1,18 @@
+import json
 from fastapi import FastAPI, Form
 from fastapi.exceptions import HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+
 
 import compiler
+
+class Item(BaseModel):
+    text: str
+    language: str
+
 app = FastAPI()
-import json
+
 
 origins = [
     "http://localhost:3000",
@@ -33,21 +41,21 @@ async def pyccel_version():
     return version
 
 @app.post("/submit-python")
-async def submit_python(text: str, language: str):
+async def submit_python(item : Item):
     """Submit a code and return translation."""
 
-    if not text:
+    if not item.text:
         raise HTTPException(
             status_code=400,
             detail="Please provide some text.",
         )
-    if language not in ["c", "fortran", "python"]:
+    if item.language not in ["c", "fortran", "python"]:
         raise HTTPException(
             status_code=400,
             detail="Invalid language. Supported languages are: c, fortran, python.",
         )
 
-    response = compiler.Backend_compiler(text, language)
+    response = compiler.Backend_compiler(item.text, item.language)
     if not response:
         return {"PyccelBackend:": "Backend Couldn't Compile the code"}
     return response
