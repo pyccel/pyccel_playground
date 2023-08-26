@@ -57,16 +57,15 @@ const OutputNavbar = () => {
 
       compilectx.setIsLoading(true);
       try {
+        const requestData = {
+          text: compilectx.input,
+          language: "c",
+        };
         const instance = axios.create({
           baseURL: "http://localhost:8000",
         });
         instance
-          .post("/submit-python", null, {
-            params: {
-              text: compilectx.input,
-              language: "c",
-            },
-          })
+          .post("/submit-python", requestData)
           .then((res) => {
             console.log(res.data);
             const outputArray = res.data.map((item) => {

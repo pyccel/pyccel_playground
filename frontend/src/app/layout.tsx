@@ -30,10 +30,10 @@ export default function RootLayout({
       >
         <UIContextProvider>
           <CompileContextProvider>
-            <body className={inter.className}>
-              <Navbar />
-              {children}
-            </body>
+              <body className={inter.className}>
+                <Navbar />
+                {children}
+              </body>
           </CompileContextProvider>
         </UIContextProvider>
       </MantineProvider>
