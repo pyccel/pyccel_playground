@@ -16,7 +16,6 @@ import { Output } from "@/types/global";
 import { useCompileContext } from "@/context/compile.context";
 import axios from "axios";
 
-
 const OutputNavbar = () => {
   const compilectx = useCompileContext();
   const uictx = useUIContext();

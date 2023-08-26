@@ -32,7 +32,7 @@ export default function Home() {
     readOnly: false,
     cursorStyle: 'line',
     automaticLayout: true,
-  
+
   };
   const outOptions = {
     autoIndent: 'full',
@@ -96,10 +96,13 @@ export default function Home() {
       {!uictx.isMobile &&
         <div className={`w-full flex  ${uictx.isExtended || uictx.revIsExtended ? "flex-col" : "flex-row"}`}>
           <div className={`h-full flex flex-col ${uictx.isExtended ? "w-full" : "w-1/2"} ${uictx.revIsExtended ? "hidden" : ""}`}>
-            <div className='h-auto w-full justify-end flex' >
+            <div className='h-8 w-full flex gap-3 items-center bg-[#37373b] rounded-sm' >
+              <div className="w-3 h-3 bg-[#ec695f] right-4 rounded-full">
 
-              {uictx.isExtended ? <AiOutlineFullscreen className="font-black text-xl bg-gray-700 hover:bg-gray-500 rounded-sm cursor-pointer" onClick={() => handleExtend()} /> :
-                <AiOutlineFullscreenExit className="font-black text-xl bg-gray-700 hover:bg-gray-500 rounded-sm cursor-pointer" onClick={() => handleExtend()} />}
+              </div>
+
+              {/* {uictx.isExtended ? <AiOutlineFullscreen className="font-black text-xl bg-gray-700 hover:bg-gray-500 rounded-sm cursor-pointer" onClick={() => handleExtend()} /> :
+                <AiOutlineFullscreenExit className="font-black text-xl bg-gray-700 hover:bg-gray-500 rounded-sm cursor-pointer" onClick={() => handleExtend()} />} */}
             </div>
             <EditNavbar />
 
@@ -150,20 +153,20 @@ export default function Home() {
             // editorDidMount={console.log}
             />
           </div>
-            <div className="flex flex-col h-screen w-full">
+          <div className="flex flex-col h-screen w-full">
 
-              <OutputNavbar />
-              <Editor
-                width="100%"
-                height="100%"
-                language="python"
-                theme="vs-dark"
-                value={compilectx.selectedOutput.PageContent}
-                options={outOptions}
-              // onChange={console.log}
-              // editorDidMount={console.log}
-              />
-            </div>
+            <OutputNavbar />
+            <Editor
+              width="100%"
+              height="100%"
+              language="python"
+              theme="vs-dark"
+              value={compilectx.selectedOutput.PageContent}
+              options={outOptions}
+            // onChange={console.log}
+            // editorDidMount={console.log}
+            />
+          </div>
         </div>
       }
     </main>
