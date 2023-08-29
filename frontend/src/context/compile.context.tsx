@@ -22,8 +22,8 @@ interface ICompileContext {
   setOutput: Dispatch<SetStateAction<Output[]>>;
   selectedOutput: Output;
   setSelectedOutput: Dispatch<SetStateAction<Output>>;
-  inLang: string;
-  setInLang: Dispatch<SetStateAction<string>>;
+  defaultPage: string;
+  setDefaultPage: Dispatch<SetStateAction<string>>;
   outLang: string;
   setOutLang: Dispatch<SetStateAction<string>>;
   isLoading: boolean;
@@ -51,8 +51,8 @@ const CompileContextProvider = ({ children }: { children: React.ReactNode }) => 
   const [metadata, setMetadata] = useState<string>("")
   const [input, setInput] = useState("");
   const [output, setOutput] = useState<Output[]>([]);
-  const [inLang, setInLang] = useState("python");
-  const [outLang, setOutLang] = useState("python");
+  const  [defaultPage, setDefaultPage] = useState<string>("");
+  const [outLang, setOutLang] = useState("");
   const [isFilled, setIsFilled] = useState(false);
   const [selectedOutput, setSelectedOutput] = useState<Output>({
     PageTitle: "",
@@ -71,8 +71,8 @@ const CompileContextProvider = ({ children }: { children: React.ReactNode }) => 
       setInput,
       output,
       setOutput,
-      inLang,
-      setInLang,
+      defaultPage,
+      setDefaultPage,
       outLang,
       setOutLang,
       selectedOutput,
@@ -80,7 +80,7 @@ const CompileContextProvider = ({ children }: { children: React.ReactNode }) => 
       isLoading,
       setIsLoading,
     }),
-    [isFilled, input, output, inLang, outLang, selectedOutput, isLoading, metadata]
+    [isFilled, input, output, defaultPage, outLang, selectedOutput, isLoading, metadata]
   );
   useEffect(() => {
     if (!metadata) {

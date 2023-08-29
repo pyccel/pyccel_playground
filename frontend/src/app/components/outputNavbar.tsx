@@ -10,7 +10,7 @@ import {
 import {
   IconCode,
 } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { useUIContext } from "@/context/ui.context";
 import { Output } from "@/types/global";
 import { useCompileContext } from "@/context/compile.context";
@@ -24,10 +24,6 @@ const OutputNavbar = () => {
     PageTitle: "",
     PageContent: "",
   });
-  const [defaultOutput, setDefaultOutput] = useState<Output>({
-    PageTitle: "",
-    PageContent: "",
-  });
 
   const options = compilectx.output.map((item) => ({
     value: item.PageTitle,
@@ -35,25 +31,27 @@ const OutputNavbar = () => {
   }));
 
   const handleSelectChange = (selectedValue: string) => {
+    console.log("selected value", selectedValue);
     const selected = compilectx.output.find((item) => item.PageTitle === selectedValue);
     if (selected) {
       setSelectedOutput(selected);
       console.log("selected output", selected);
     }
   };
+  
   const headerHeight = uictx.isMobile ? 100 : 60;
 
   
 
   const handleSubmit = async () => {
     console.log("submitting");
-    const selectedItem: Output | undefined = compilectx.output.find((item) => item.PageTitle === selectedOutput.PageTitle);
+    
     if (compilectx.outLang && compilectx.input) {
       compilectx.setIsLoading(true);
       try {
         const requestData = {
           text: compilectx.input,
-          language: "c",
+          language: compilectx.outLang,
         };
         const instance = axios.create({
           baseURL: "http://localhost:8000",
@@ -67,10 +65,14 @@ const OutputNavbar = () => {
         }));
   
         compilectx.setOutput(outputArray);
-        console.log("first output", outputArray.find((item) => item.PageTitle === "code_python.c"));
-        setSelectedOutput(outputArray[0]);
-        console.log("selected output", selectedOutput);
-      
+        
+        console.log("outlang", compilectx.outLang);
+        if (compilectx.outLang === "c") {
+          handleSelectChange("code_python.c");
+        }
+        if (compilectx.outLang === "fortran") {
+          handleSelectChange("code_python.f90");
+        }
       } catch (error) {
         console.error(error);
       } finally {
@@ -81,12 +83,16 @@ const OutputNavbar = () => {
       alert("Please fill all the fields");
     }
   };
-  
+
   useEffect(() => {
+    compilectx.setDefaultPage(compilectx.outLang === "c" ? "code_python.c" : "code_python.f90"); 
     
-    compilectx.setSelectedOutput(selectedOutput);
-    console.log("selected output in use effect", selectedOutput);
-  }, [compilectx.output, selectedOutput]);
+  }
+  , [compilectx]);
+  
+
+
+
 
   const customLoader = (
 
@@ -116,6 +122,10 @@ const OutputNavbar = () => {
 
   );
 
+  useEffect(() => {
+    handleSelectChange(compilectx.defaultPage);
+  }
+  , [compilectx]);
 
   return (
     <Box className="w-full">
@@ -139,7 +149,7 @@ const OutputNavbar = () => {
             onChange={handleSelectChange}
             transitionProps={{ transition: 'pop-top-left', duration: 80, timingFunction: 'ease' }}
             withinPortal
-            defaultValue={"code_python.c"}
+            defaultValue={compilectx.outLang === "c" ? "code_python.c" : "code_python.f90"}
           />
         </Group>
       </Header>

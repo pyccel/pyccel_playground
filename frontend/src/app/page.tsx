@@ -11,6 +11,7 @@ import { useCompileContext } from '@/context/compile.context';
 import Editor, { Monaco } from "@monaco-editor/react";
 import { GrClose } from 'react-icons/gr'
 import { FaExpandAlt } from 'react-icons/fa'
+import Terminal, { ColorMode, TerminalOutput } from 'react-terminal-ui';
 
 export default function Home() {
   const inOptions = {
@@ -57,6 +58,10 @@ export default function Home() {
     automaticLayout: true,
 
   };
+  const [showTerminal, setShowTerminal] = useState(false);
+  const [terminalLineData, setTerminalLineData] = useState([
+    <TerminalOutput>Welcome to the React Terminal UI Demo!</TerminalOutput>
+  ]);
   const uictx = useUIContext();
   const compilectx = useCompileContext();
   const handleExtend = () => {
@@ -105,7 +110,7 @@ export default function Home() {
               height="100%"
               language="python"
               theme="vs-dark"
-              value="// some comment"
+              value="print('hi')"
               options={inOptions}
               onChange={(e) => handleChangeInput(e)}
               editorDidMount={console.log}
@@ -141,6 +146,13 @@ export default function Home() {
             />
 
           </div>
+          {/* {
+            !showTerminal && <div className="h-full w-1/4 bg-gray-700">
+              <Terminal name='React Terminal Usage Example' colorMode={ ColorMode.Light }  onInput={ terminalInput => console.log(`New terminal input received: '${ terminalInput }'`) }>
+        { terminalLineData }
+      </Terminal>
+            </div>
+          } */}
         </div>
       }
       {
@@ -166,7 +178,7 @@ export default function Home() {
               height="100%"
               language="python"
               theme="vs-dark"
-              value={compilectx.selectedOutput.PageContent}
+              value={compilectx?.selectedOutput?.PageContent}
               options={outOptions}
             // onChange={console.log}
             // editorDidMount={console.log}
