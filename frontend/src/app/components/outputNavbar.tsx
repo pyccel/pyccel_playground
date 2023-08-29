@@ -15,11 +15,16 @@ import { useUIContext } from "@/context/ui.context";
 import { Output } from "@/types/global";
 import { useCompileContext } from "@/context/compile.context";
 import axios from "axios";
+import { DEFAULT_THEME, LoadingOverlay } from '@mantine/core'
 
 const OutputNavbar = () => {
   const compilectx = useCompileContext();
   const uictx = useUIContext();
   const [selectedOutput, setSelectedOutput] = useState<Output>({
+    PageTitle: "",
+    PageContent: "",
+  });
+  const [defaultOutput, setDefaultOutput] = useState<Output>({
     PageTitle: "",
     PageContent: "",
   });
@@ -38,23 +43,12 @@ const OutputNavbar = () => {
   };
   const headerHeight = uictx.isMobile ? 100 : 60;
 
-  const checkFilled = () => {
-    console.log("fields", compilectx.inLang, compilectx.outLang, compilectx.input);
-    if (compilectx.inLang && compilectx.outLang && compilectx.input) {
-      compilectx.setIsFilled(true);
-      console.log(compilectx.selectedOutput);
-    }
-    else {
-      compilectx.setIsFilled(false);
-      alert("Please fill all the fields");
-    }
-  };
+  
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log("submitting");
-    checkFilled();
-    if (compilectx.isFilled) {
-
+    const selectedItem: Output | undefined = compilectx.output.find((item) => item.PageTitle === selectedOutput.PageTitle);
+    if (compilectx.outLang && compilectx.input) {
       compilectx.setIsLoading(true);
       try {
         const requestData = {
@@ -64,32 +58,72 @@ const OutputNavbar = () => {
         const instance = axios.create({
           baseURL: "http://localhost:8000",
         });
-        instance
-          .post("/submit-python", requestData)
-          .then((res) => {
-            console.log(res.data);
-            const outputArray = res.data.map((item) => {
-              return {
-                PageTitle: item.FileName,
-                PageContent: item.Content,
-              };
-            });
-            compilectx.setOutput(outputArray);
-            compilectx.setIsLoading(false);
-          }
-          );
+        const response = await instance.post("/submit-python", requestData);
+        console.log("this is submit resp",response.data);
+  
+        const outputArray = response.data.map((item: any) => ({
+          PageTitle: item.FileName,
+          PageContent: item.Content,
+        }));
+  
+        compilectx.setOutput(outputArray);
+        console.log("first output", outputArray.find((item) => item.PageTitle === "code_python.c"));
+        setSelectedOutput(outputArray[0]);
+        console.log("selected output", selectedOutput);
+      
       } catch (error) {
         console.error(error);
+      } finally {
+        compilectx.setIsLoading(false);
       }
     }
+    else {
+      alert("Please fill all the fields");
+    }
   };
-
+  
   useEffect(() => {
+    
     compilectx.setSelectedOutput(selectedOutput);
-  }, [compilectx, selectedOutput]);
+    console.log("selected output in use effect", selectedOutput);
+  }, [compilectx.output, selectedOutput]);
+
+  const customLoader = (
+
+    <svg
+      width="54"
+      height="54"
+      viewBox="0 0 38 38"
+      xmlns="http://www.w3.org/2000/svg"
+      stroke={DEFAULT_THEME.colors.blue[6]}
+    >
+      <g fill="none" fillRule="evenodd">
+        <g transform="translate(1 1)" strokeWidth="2">
+          <circle strokeOpacity=".5" cx="18" cy="18" r="18" />
+          <path d="M36 18c0-9.94-8.06-18-18-18">
+            <animateTransform
+              attributeName="transform"
+              type="rotate"
+              from="0 18 18"
+              to="360 18 18"
+              dur="1s"
+              repeatCount="indefinite"
+            />
+          </path>
+        </g>
+      </g>
+    </svg>
+
+  );
+
 
   return (
     <Box className="w-full">
+      {
+        compilectx.isLoading && <Box sx={{ height: `calc(100% - ${headerHeight}px)` }}>
+          <LoadingOverlay loader={customLoader} visible />
+        </Box>
+      }
       <Header height={headerHeight} px="md" sx={{ width: "100%" }} withBorder>
         <Group position="apart" sx={{ height: "100%", width: "100%" }} className="w-full">
           <Button
@@ -105,10 +139,10 @@ const OutputNavbar = () => {
             onChange={handleSelectChange}
             transitionProps={{ transition: 'pop-top-left', duration: 80, timingFunction: 'ease' }}
             withinPortal
+            defaultValue={"code_python.c"}
           />
         </Group>
       </Header>
-
     </Box>
   );
 };

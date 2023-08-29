@@ -12,7 +12,6 @@ import Editor, { Monaco } from "@monaco-editor/react";
 import { GrClose } from 'react-icons/gr'
 import { FaExpandAlt } from 'react-icons/fa'
 
-
 export default function Home() {
   const inOptions = {
     autoIndent: 'full',
@@ -87,13 +86,13 @@ export default function Home() {
             <div className='h-8 w-full flex gap-3 items-center bg-[#37373b] rounded-sm' >
               <div className="group ml-2 w-3 h-3 bg-[#ec695f] flex justify-center items-center
                rounded-full">
-                <GrClose className="transition opacity-0 w-2 h-2 group-hover:opacity-100" onClick={() => handleExtend()}/>
+                <GrClose className="transition opacity-0 w-2 h-2 group-hover:opacity-100" onClick={() => handleExtend()} />
               </div>
               <div className="group w-3 h-3 bg-[#f1be5b] rounded-full">
 
               </div>
               <div className=" group w-3 h-3 bg-[#5dc15a] rounded-full flex justify-center items-center">
-                <FaExpandAlt className="text-black transition opacity-0 w-2 h-2 group-hover:opacity-100" onClick={() => handleExtend()}/>
+                <FaExpandAlt className="text-black transition opacity-0 w-2 h-2 group-hover:opacity-100" onClick={() => handleExtend()} />
               </div>
 
               {/* {uictx.isExtended ? <AiOutlineFullscreen className="font-black text-xl bg-gray-700 hover:bg-gray-500 rounded-sm cursor-pointer" onClick={() => handleExtend()} /> :
@@ -117,7 +116,7 @@ export default function Home() {
             <div className='h-8 w-full flex gap-3 items-center bg-[#37373b] rounded-sm' >
               <div className="group ml-2 w-3 h-3 bg-[#ec695f] flex justify-center items-center
                rounded-full">
-                <GrClose className="transition opacity-0 w-2 h-2 group-hover:opacity-100" onClick={() => handleRevExtend()}/>
+                <GrClose className="transition opacity-0 w-2 h-2 group-hover:opacity-100" onClick={() => handleRevExtend()} />
               </div>
               <div className="group w-3 h-3 bg-[#f1be5b] rounded-full">
 

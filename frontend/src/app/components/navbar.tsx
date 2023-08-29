@@ -144,7 +144,7 @@ const Navbar = () => {
     <Box >
       <Header height={60} px="md">
         <Group position="apart" sx={{ height: "100%" }}>
-          <h1 className="text-xl font-bold">Pyccell <span className="text-xs">{ctx.metadata}</span></h1>
+          <h1 className="text-xl font-bold">Pyccel <span className="text-xs">{ctx.metadata}</span></h1>
 
           <Group
             sx={{ height: "100%" }}
