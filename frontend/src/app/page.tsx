@@ -12,6 +12,7 @@ import Editor, { Monaco } from "@monaco-editor/react";
 import { GrClose } from 'react-icons/gr'
 import { FaExpandAlt } from 'react-icons/fa'
 import Terminal, { ColorMode, TerminalOutput } from 'react-terminal-ui';
+import { BsFillArrowUpCircleFill, BsFillArrowDownCircleFill } from 'react-icons/bs'
 
 export default function Home() {
   const inOptions = {
@@ -60,7 +61,7 @@ export default function Home() {
   };
   const [showTerminal, setShowTerminal] = useState(false);
   const [terminalLineData, setTerminalLineData] = useState([
-    <TerminalOutput>Welcome to the React Terminal UI Demo!</TerminalOutput>
+    <TerminalOutput>Welcome to Pyccel Terminal</TerminalOutput>
   ]);
   const uictx = useUIContext();
   const compilectx = useCompileContext();
@@ -85,7 +86,13 @@ export default function Home() {
 
   return (
     <main className="flex w-full h-[calc(100vh-4rem)]">
-      {!uictx.isMobile && 
+      {
+        showTerminal &&
+        <Terminal name='Pyccel Terminal' colorMode={ColorMode.Dark} onInput={terminalInput => console.log(`New terminal input received: '${terminalInput}'`)}>
+          {terminalLineData}
+        </Terminal>
+      }
+      {!uictx.isMobile && !showTerminal &&
         <div className={`w-full flex  ${uictx.isExtended || uictx.revIsExtended ? "flex-col" : "flex-row"}`}>
           <div className={` md:border-r md:border-black h-full flex flex-col transition-all duration-300 ease-in-out ${uictx.isExtended ? "w-full" : "w-1/2"} ${uictx.revIsExtended ? "hidden" : ""}`}>
             <div className='h-8 w-full flex gap-3 items-center bg-[#37373b] rounded-sm' >
@@ -146,13 +153,9 @@ export default function Home() {
             />
 
           </div>
-          {/* {
-            !showTerminal && <div className="h-full w-1/4 bg-gray-700">
-              <Terminal name='React Terminal Usage Example' colorMode={ ColorMode.Light }  onInput={ terminalInput => console.log(`New terminal input received: '${ terminalInput }'`) }>
-        { terminalLineData }
-      </Terminal>
-            </div>
-          } */}
+
+
+
         </div>
       }
       {
@@ -186,6 +189,10 @@ export default function Home() {
           </div>
         </div>
       }
+      <div className=" absolute bottom-2 right-2 flex flex-col gap-4 mr-4 mb-4 rounded-full">
+        <BsFillArrowUpCircleFill className={`text-white font-black text-3xl bg-gray-700 rounded-full hover:bg-gray-500  cursor-pointer ${showTerminal ? "hidden" : ""}`} onClick={() => setShowTerminal(!showTerminal)} />
+        <BsFillArrowDownCircleFill className={`text-white font-black text-3xl bg-gray-700 rounded-full hover:bg-gray-500  cursor-pointer ${!showTerminal ? "hidden" : ""}`} onClick={() => setShowTerminal(!showTerminal)} />
+      </div>
     </main>
   )
 }

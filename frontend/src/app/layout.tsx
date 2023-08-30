@@ -4,9 +4,10 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Navbar from "./components/navbar";
 import { MantineProvider } from "@mantine/core";
-import { UIContextProvider } from "@/context/ui.context";
+import { UIContextProvider, useUIContext } from "@/context/ui.context";
 import { CompileContextProvider } from "@/context/compile.context";
 const inter = Inter({ subsets: ["latin"] });
+import { BsFillArrowUpCircleFill, BsFillArrowDownCircleFill } from 'react-icons/bs'
 
 // export const metadata: Metadata = {
 //   title: "Create Next App",
@@ -18,6 +19,13 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  
+
+  const HandleShowTerminal = () => {
+    const uiCtx = useUIContext();
+    uiCtx.setShowTerminal(!uiCtx.showTerminal);
+  };
+
   return (
     <html lang="en">
       <MantineProvider
@@ -30,10 +38,10 @@ export default function RootLayout({
       >
         <UIContextProvider>
           <CompileContextProvider>
-              <body className={inter.className}>
-                <Navbar />
-                {children}
-              </body>
+            <body className={inter.className}>
+              <Navbar />
+              {children}    
+            </body>
           </CompileContextProvider>
         </UIContextProvider>
       </MantineProvider>
