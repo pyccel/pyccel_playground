@@ -26,8 +26,8 @@ const OutputNavbar = () => {
   });
 
   const options = compilectx.output.map((item) => ({
-    value: item.PageTitle,
     label: item.PageTitle,
+    value: item.PageTitle,
   }));
 
   const handleSelectChange = (selectedValue: string) => {
@@ -38,14 +38,14 @@ const OutputNavbar = () => {
       console.log("selected output", selected);
     }
   };
-  
+
   const headerHeight = uictx.isMobile ? 100 : 60;
 
-  
+
 
   const handleSubmit = async () => {
     console.log("submitting");
-    
+
     if (compilectx.outLang && compilectx.input) {
       compilectx.setIsLoading(true);
       try {
@@ -57,21 +57,24 @@ const OutputNavbar = () => {
           baseURL: "http://localhost:8000",
         });
         const response = await instance.post("/submit-python", requestData);
-        console.log("this is submit resp",response.data);
-  
+        console.log("this is submit resp", response.data);
+
         const outputArray = response.data.map((item: any) => ({
           PageTitle: item.FileName,
           PageContent: item.Content,
         }));
-  
+
         compilectx.setOutput(outputArray);
-        
+
         console.log("outlang", compilectx.outLang);
         if (compilectx.outLang === "c") {
-          handleSelectChange("code_python.c");
+          setSelectedOutput(outputArray.find((item) => item.PageTitle === "code_python.c")!);
+          // handleSelectChange("code_python.c");
         }
         if (compilectx.outLang === "fortran") {
-          handleSelectChange("code_python.f90");
+          setSelectedOutput(outputArray.find((item) => item.PageTitle === "code_python.f90")!);
+
+          // handleSelectChange("code_python.f90");
         }
       } catch (error) {
         console.error(error);
@@ -83,15 +86,6 @@ const OutputNavbar = () => {
       alert("Please fill all the fields");
     }
   };
-
-  useEffect(() => {
-    compilectx.setDefaultPage(compilectx.outLang === "c" ? "code_python.c" : "code_python.f90"); 
-    
-  }
-  , [compilectx]);
-  
-
-
 
 
   const customLoader = (
@@ -123,9 +117,9 @@ const OutputNavbar = () => {
   );
 
   useEffect(() => {
-    handleSelectChange(compilectx.defaultPage);
-  }
-  , [compilectx]);
+
+    compilectx.setSelectedOutput(selectedOutput);
+  }, [compilectx.output, selectedOutput]);
 
   return (
     <Box className="w-full">
@@ -143,6 +137,7 @@ const OutputNavbar = () => {
             onClick={() => handleSubmit()}
           >
             save/load</Button>
+
           <Select
             placeholder="Pick a Page"
             data={options}
@@ -151,6 +146,7 @@ const OutputNavbar = () => {
             withinPortal
             defaultValue={compilectx.outLang === "c" ? "code_python.c" : "code_python.f90"}
           />
+
         </Group>
       </Header>
     </Box>

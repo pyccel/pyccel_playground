@@ -85,7 +85,7 @@ export default function Home() {
 
   return (
     <main className="flex w-full h-[calc(100vh-4rem)]">
-      {!uictx.isMobile &&
+      {!uictx.isMobile && 
         <div className={`w-full flex  ${uictx.isExtended || uictx.revIsExtended ? "flex-col" : "flex-row"}`}>
           <div className={` md:border-r md:border-black h-full flex flex-col transition-all duration-300 ease-in-out ${uictx.isExtended ? "w-full" : "w-1/2"} ${uictx.revIsExtended ? "hidden" : ""}`}>
             <div className='h-8 w-full flex gap-3 items-center bg-[#37373b] rounded-sm' >
