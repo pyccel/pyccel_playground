@@ -9,7 +9,10 @@ import { Button } from '@mantine/core';
 import { AiOutlineFullscreen, AiOutlineFullscreenExit } from 'react-icons/ai';
 import { useCompileContext } from '@/context/compile.context';
 import Editor, { Monaco } from "@monaco-editor/react";
-
+import { GrClose } from 'react-icons/gr'
+import { FaExpandAlt } from 'react-icons/fa'
+import Terminal, { ColorMode, TerminalOutput } from 'react-terminal-ui';
+import { BsFillArrowUpCircleFill, BsFillArrowDownCircleFill } from 'react-icons/bs'
 
 export default function Home() {
   const inOptions = {
@@ -56,6 +59,10 @@ export default function Home() {
     automaticLayout: true,
 
   };
+  const [showTerminal, setShowTerminal] = useState(false);
+  const [terminalLineData, setTerminalLineData] = useState([
+    <TerminalOutput>Welcome to Pyccel Terminal</TerminalOutput>
+  ]);
   const uictx = useUIContext();
   const compilectx = useCompileContext();
   const handleExtend = () => {
@@ -71,20 +78,6 @@ export default function Home() {
       uictx.setIsExtended(false);
     }
   };
-  const handleMobileExtend = () => {
-    uictx.setIsExtended(!uictx.isExtended);
-    if (uictx.revIsExtended && uictx.isExtended) {
-      uictx.setRevIsExtended(false);
-    }
-  }
-  const handleMobileRevExtend = () => {
-    uictx.setRevIsExtended(!uictx.revIsExtended);
-    if (uictx.isExtended && uictx.revIsExtended) {
-      uictx.setIsExtended(false);
-    }
-  }
-
-
 
   const handleChangeInput = (e: string) => {
     console.log("this is the input", e);
@@ -93,12 +86,25 @@ export default function Home() {
 
   return (
     <main className="flex w-full h-[calc(100vh-4rem)]">
-      {!uictx.isMobile &&
+      {
+        showTerminal &&
+        <Terminal name='Pyccel Terminal' colorMode={ColorMode.Dark} onInput={terminalInput => console.log(`New terminal input received: '${terminalInput}'`)}>
+          {terminalLineData}
+        </Terminal>
+      }
+      {!uictx.isMobile && !showTerminal &&
         <div className={`w-full flex  ${uictx.isExtended || uictx.revIsExtended ? "flex-col" : "flex-row"}`}>
-          <div className={`h-full flex flex-col ${uictx.isExtended ? "w-full" : "w-1/2"} ${uictx.revIsExtended ? "hidden" : ""}`}>
+          <div className={` md:border-r md:border-black h-full flex flex-col transition-all duration-300 ease-in-out ${uictx.isExtended ? "w-full" : "w-1/2"} ${uictx.revIsExtended ? "hidden" : ""}`}>
             <div className='h-8 w-full flex gap-3 items-center bg-[#37373b] rounded-sm' >
-              <div className="w-3 h-3 bg-[#ec695f] right-4 rounded-full">
+              <div className="group ml-2 w-3 h-3 bg-[#ec695f] flex justify-center items-center
+               rounded-full">
+                <GrClose className="transition opacity-0 w-2 h-2 group-hover:opacity-100" onClick={() => handleExtend()} />
+              </div>
+              <div className="group w-3 h-3 bg-[#f1be5b] rounded-full">
 
+              </div>
+              <div className=" group w-3 h-3 bg-[#5dc15a] rounded-full flex justify-center items-center">
+                <FaExpandAlt className="text-black transition opacity-0 w-2 h-2 group-hover:opacity-100" onClick={() => handleExtend()} />
               </div>
 
               {/* {uictx.isExtended ? <AiOutlineFullscreen className="font-black text-xl bg-gray-700 hover:bg-gray-500 rounded-sm cursor-pointer" onClick={() => handleExtend()} /> :
@@ -111,17 +117,28 @@ export default function Home() {
               height="100%"
               language="python"
               theme="vs-dark"
-              value="// some comment"
+              value="print('hi')"
               options={inOptions}
               onChange={(e) => handleChangeInput(e)}
               editorDidMount={console.log}
             />
           </div>
 
-          <div className={`h-full flex flex-col ${uictx.revIsExtended ? "w-full" : "w-1/2"} ${uictx.isExtended ? "hidden" : ""}`}>
-            <div className='h-auto w-full justify-end flex' >
-              {uictx.revIsExtended ? <AiOutlineFullscreen className="font-black text-xl bg-gray-700 hover:bg-gray-500 rounded-sm cursor-pointer" onClick={() => handleRevExtend()} /> :
-                <AiOutlineFullscreenExit className="font-black text-xl bg-gray-700 hover:bg-gray-500 rounded-sm cursor-pointer" onClick={() => handleRevExtend()} />}
+          <div className={`h-full flex flex-col transition-all duration-300 ease-in-out md:ml-auto ${uictx.revIsExtended ? "w-full" : "w-1/2"} ${uictx.isExtended ? "hidden" : ""}`}>
+            <div className='h-8 w-full flex gap-3 items-center bg-[#37373b] rounded-sm' >
+              <div className="group ml-2 w-3 h-3 bg-[#ec695f] flex justify-center items-center
+               rounded-full">
+                <GrClose className="transition opacity-0 w-2 h-2 group-hover:opacity-100" onClick={() => handleRevExtend()} />
+              </div>
+              <div className="group w-3 h-3 bg-[#f1be5b] rounded-full">
+
+              </div>
+              <div className=" group w-3 h-3 bg-[#5dc15a] rounded-full flex justify-center items-center">
+                <FaExpandAlt className="text-black transition opacity-0 w-2 h-2 group-hover:opacity-100" onClick={() => handleRevExtend()} />
+              </div>
+
+              {/* {uictx.isExtended ? <AiOutlineFullscreen className="font-black text-xl bg-gray-700 hover:bg-gray-500 rounded-sm cursor-pointer" onClick={() => handleExtend()} /> :
+                <AiOutlineFullscreenExit className="font-black text-xl bg-gray-700 hover:bg-gray-500 rounded-sm cursor-pointer" onClick={() => handleExtend()} />} */}
             </div>
             <OutputNavbar />
             <Editor
@@ -136,6 +153,9 @@ export default function Home() {
             />
 
           </div>
+
+
+
         </div>
       }
       {
@@ -161,7 +181,7 @@ export default function Home() {
               height="100%"
               language="python"
               theme="vs-dark"
-              value={compilectx.selectedOutput.PageContent}
+              value={compilectx?.selectedOutput?.PageContent}
               options={outOptions}
             // onChange={console.log}
             // editorDidMount={console.log}
@@ -169,6 +189,10 @@ export default function Home() {
           </div>
         </div>
       }
+      <div className=" absolute bottom-2 right-2 flex flex-col gap-4 mr-4 mb-4 rounded-full">
+        <BsFillArrowUpCircleFill className={`text-white font-black text-3xl bg-gray-700 rounded-full hover:bg-gray-500  cursor-pointer ${showTerminal ? "hidden" : ""}`} onClick={() => setShowTerminal(!showTerminal)} />
+        <BsFillArrowDownCircleFill className={`text-white font-black text-3xl bg-gray-700 rounded-full hover:bg-gray-500  cursor-pointer ${!showTerminal ? "hidden" : ""}`} onClick={() => setShowTerminal(!showTerminal)} />
+      </div>
     </main>
   )
 }

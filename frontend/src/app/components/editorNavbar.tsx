@@ -30,6 +30,12 @@ const EditNavbar = () => {
 
   const headerHeight = uictx.isMobile ? 100 : 60;
 
+  const handleChangeLang = (e: string) => {
+    compilectx.setOutLang(e);
+    console.log("lang", e);
+  };
+
+
   return (
     <Box className="w-full">
       <Header height={headerHeight} px="md" sx={{ width: "100%" }}>
@@ -41,10 +47,11 @@ const EditNavbar = () => {
               placeholder="Pick a language"
               data={[
                 { value: "fortran", label: "Fortran" },
-                { value: "C", label: "C" },
+                { value: "c", label: "C" },
               ]}
               defaultValue={"C"}
               transitionProps={{ transition: 'pop-top-left', duration: 80, timingFunction: 'ease' }}
+              onChange={(e) => handleChangeLang(e)}
             />
           </div>
         </Group>

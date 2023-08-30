@@ -1,5 +1,6 @@
 "use client";
 
+import { useCompileContext } from "@/context/compile.context";
 import {
   createStyles,
   Header,
@@ -82,9 +83,8 @@ const useStyles = createStyles((theme) => ({
     marginTop: theme.spacing.sm,
     padding: `${theme.spacing.md} calc(${theme.spacing.md} * 2)`,
     paddingBottom: theme.spacing.xl,
-    borderTop: `${rem(1)} solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[1]
-    }`,
+    borderTop: `${rem(1)} solid ${theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[1]
+      }`,
   },
 
   hiddenMobile: {
@@ -120,6 +120,7 @@ const Navbar = () => {
     useDisclosure(false);
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const { classes, theme } = useStyles();
+  const ctx = useCompileContext();
 
   const links = mockdata.map((item) => (
     <UnstyledButton className={classes.subLink} key={item.title}>
@@ -143,14 +144,14 @@ const Navbar = () => {
     <Box >
       <Header height={60} px="md">
         <Group position="apart" sx={{ height: "100%" }}>
-          <h1 className="text-xl font-bold">Pyccel</h1>
+          <h1 className="text-xl font-bold">Pyccel <span className="text-xs">{ctx.metadata}</span></h1>
 
           <Group
             sx={{ height: "100%" }}
             spacing={0}
             className={classes.hiddenMobile}
           >
-            
+
             <HoverCard
               width={300}
               position="bottom"
