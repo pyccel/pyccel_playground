@@ -16,6 +16,10 @@ import {
     setIsMobile: Dispatch<SetStateAction<boolean>>;
     showTerminal: boolean;
     setShowTerminal: Dispatch<SetStateAction<boolean>>;
+    terminalExtended: boolean;
+    setTerminalExtended: Dispatch<SetStateAction<boolean>>;
+    terminalRevExtended: boolean;
+    setTerminalRevExtended: Dispatch<SetStateAction<boolean>>;
   }
   
   export const UIContext = createContext<IUIContext | undefined>(undefined);
@@ -24,7 +28,9 @@ import {
     const [revIsExtended, setRevIsExtended] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
     const [isExtended, setIsExtended] = useState(false);
-    const [showTerminal, setShowTerminal] = useState(true);
+    const [showTerminal, setShowTerminal] = useState(false);
+    const [terminalExtended, setTerminalExtended] = useState(false);
+    const [terminalRevExtended, setTerminalRevExtended] = useState(false);
   
     const value = useMemo(
       () => ({
@@ -32,12 +38,16 @@ import {
         setIsExtended,
         revIsExtended,
         setRevIsExtended,
+        terminalExtended,
+        setTerminalExtended,
+        terminalRevExtended,
+        setTerminalRevExtended,
         isMobile,
         setIsMobile,
         showTerminal,
         setShowTerminal,
       }),
-      [isExtended, revIsExtended, isMobile, showTerminal]
+      [isExtended, revIsExtended, isMobile, showTerminal, terminalExtended, terminalRevExtended]
     );
   
     return <UIContext.Provider value={value}>{children}</UIContext.Provider>;

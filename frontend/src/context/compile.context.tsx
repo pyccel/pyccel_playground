@@ -1,4 +1,4 @@
-import { Output } from "@/types/global";
+import { ExecOutput, Output } from "@/global/types";
 import {
   Dispatch,
   SetStateAction,
@@ -28,6 +28,8 @@ interface ICompileContext {
   setOutLang: Dispatch<SetStateAction<string>>;
   isLoading: boolean;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
+  execOutput: ExecOutput;
+  setExecOutput: Dispatch<SetStateAction<ExecOutput>>;
 }
 
 export const CompileContext = createContext<ICompileContext | undefined>(undefined);
@@ -47,16 +49,25 @@ const loadMetadata = async () => {
   }
 };
 
+
+
 const CompileContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [metadata, setMetadata] = useState<string>("")
   const [input, setInput] = useState("");
   const [output, setOutput] = useState<Output[]>([]);
-  const  [defaultPage, setDefaultPage] = useState<string>("");
-  const [outLang, setOutLang] = useState("");
+  const [defaultPage, setDefaultPage] = useState<string>("");
+  const [outLang, setOutLang] = useState("c");
   const [isFilled, setIsFilled] = useState(false);
   const [selectedOutput, setSelectedOutput] = useState<Output>({
     PageTitle: "",
     PageContent: "",
+  });
+  const [execOutput, setExecOutput] = useState<ExecOutput>({
+    pyccelOutput: "",
+    pyccelErrors: "",
+    pythonOutput: "",
+    pythonErrors: "",
+    securityOutput: "",
   });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -79,8 +90,10 @@ const CompileContextProvider = ({ children }: { children: React.ReactNode }) => 
       setSelectedOutput,
       isLoading,
       setIsLoading,
+      execOutput,
+      setExecOutput,
     }),
-    [isFilled, input, output, defaultPage, outLang, selectedOutput, isLoading, metadata]
+    [isFilled, input, output, defaultPage, outLang, selectedOutput, isLoading, metadata, execOutput]
   );
   useEffect(() => {
     if (!metadata) {
@@ -96,7 +109,7 @@ const CompileContextProvider = ({ children }: { children: React.ReactNode }) => 
 
     }
   }, []);
-  
+
   return <CompileContext.Provider value={value}>{children}</CompileContext.Provider>;
 };
 

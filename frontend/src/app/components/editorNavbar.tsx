@@ -49,7 +49,7 @@ const EditNavbar = () => {
                 { value: "fortran", label: "Fortran" },
                 { value: "c", label: "C" },
               ]}
-              defaultValue={"C"}
+              defaultValue={compilectx.outLang}
               transitionProps={{ transition: 'pop-top-left', duration: 80, timingFunction: 'ease' }}
               onChange={(e) => handleChangeLang(e)}
             />
