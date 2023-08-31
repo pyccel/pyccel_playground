@@ -47,8 +47,17 @@ const Terminal = () => {
                 <div className='h-full w-full flex flex-col p-2'>
                     <p>~ Welcome to pyccel </p>
                     <br />
-                    <p className='py-2'>{compilectx?.execOutput.pythonOutput ? compilectx.execOutput.pythonOutput : compilectx.execOutput.pythonErrors}</p>
-                </div>
+                    <p>
+                        {compilectx.isLoading ? (
+                            // Show loading text with three dots animation
+                            <span>Loading...</span>
+                        ) : (
+                            // Show your content here once loading is done
+                            compilectx?.execOutput.pythonOutput
+                                ? compilectx.execOutput.pythonOutput
+                                : compilectx.execOutput.pythonErrors
+                        )}
+                    </p></div>
 
             </div>
 
@@ -72,7 +81,17 @@ const Terminal = () => {
                 <div className='h-full w-full flex flex-col p-2'>
                     <p>~ Welcome to pyccel </p>
                     <br />
-                    <p className='py-2'>{compilectx?.execOutput.pyccelOutput ? compilectx.execOutput.pyccelOutput : compilectx.execOutput.pyccelErrors}</p>
+                    <p>
+                        {compilectx.isLoading ? (
+                            // Show loading text with three dots animation
+                            <span>Loading...</span>
+                        ) : (
+                            // Show your content here once loading is done
+                            compilectx?.execOutput.pyccelOutput
+                                ? compilectx.execOutput.pyccelOutput
+                                : compilectx.execOutput.pyccelErrors
+                        )}
+                    </p>
                 </div>
 
             </div>

@@ -188,7 +188,7 @@ export default function Home() {
         </div>
       }
       <div className=" absolute bottom-2 right-2 flex flex-col gap-4 mr-4 mb-4 ">
-        <BsTerminalFill className={`text-3xl cursor-pointer ${uictx.showTerminal ? "text-orange-300" : "text-gray-500"}`} onClick={() => uictx.setShowTerminal(!uictx.showTerminal)} />
+        <BsTerminalFill className={`text-3xl cursor-pointer ${uictx.showTerminal ? "text-orange-300 hover:text-orange-400 duration-300" : "text-gray-300 hover:text-gray-400 duration-300"}`} onClick={() => uictx.setShowTerminal(!uictx.showTerminal)} />
       </div>
     </main>
   )
