@@ -115,8 +115,8 @@ class Compiler():
         command_builder = f"pyccel {self.file_path} --language {self.language}"
 
         security_exit, security_error, security_execition = execute_command_with_timeout(bandit_command, 30)
-        print(security_exit)
-        if security_exit != 1:
+        print(f"security_exit {security_exit}")
+        if security_exit == 0:
           security_error = "Safe"
           pyccel_exit_, pyccel_error_, pyccel_execution_ =  execute_command_with_timeout(command_builder, 30)
           pyccel_exit, pyccel_error, pyccel_execution =  execute_command_with_timeout(pyccel_command, 30)

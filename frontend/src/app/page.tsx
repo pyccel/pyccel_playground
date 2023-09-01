@@ -115,7 +115,7 @@ export default function Home() {
               height="100%"
               language="python"
               theme="vs-dark"
-              value="print('hi')"
+              value={compilectx.input}
               options={inOptions}
               onChange={(e) => handleChangeInput(e)}
               editorDidMount={console.log}

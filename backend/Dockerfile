@@ -18,7 +18,7 @@ RUN apt-get update \
 # neccessary pacakges to run pyccel
 RUN apt-get -y install build-essential zlib1g-dev libncurses5-dev libgdbm-dev \
 	libnss3-dev libssl-dev libreadline-dev libffi-dev wget git
-RUN pip install pyccel
+RUN pip install pyccel && pip install bandit
 
 
 WORKDIR /home/
