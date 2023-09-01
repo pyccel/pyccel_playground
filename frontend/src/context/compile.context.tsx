@@ -88,7 +88,6 @@ const loadMetadata = async () => {
 };
 
 
-
 const CompileContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [metadata, setMetadata] = useState<string>(initialContext.metadata);
   const [input, setInput] = useState(initialContext.input);
