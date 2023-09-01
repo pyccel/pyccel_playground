@@ -1,6 +1,6 @@
 import { useUIContext } from '@/context/ui.context';
 import { useCompileContext } from '@/context/compile.context';
-import { Box, Container } from '@mantine/core';
+import { Box, Container, ScrollArea } from '@mantine/core';
 import React from 'react'
 import { FaExpandAlt } from 'react-icons/fa'
 import { GrClose } from 'react-icons/gr'
@@ -45,19 +45,22 @@ const Terminal = () => {
                     </div>
                 </div>
                 <div className='h-full w-full flex flex-col p-2'>
-                    <p>~ Welcome to pyccel </p>
-                    <br />
-                    <p>
-                        {compilectx.isLoading ? (
-                            // Show loading text with three dots animation
-                            <span>Loading...</span>
-                        ) : (
-                            // Show your content here once loading is done
-                            compilectx?.execOutput.pythonOutput
-                                ? compilectx.execOutput.pythonOutput
-                                : compilectx.execOutput.pythonErrors
-                        )}
-                    </p></div>
+                    <ScrollArea h={800}>
+                        <p>~ Welcome to pyccel </p>
+                        <br />
+                        <p>
+                            {compilectx.isLoading ? (
+                                // Show loading text with three dots animation
+                                <span>Loading...</span>
+                            ) : (
+                                // Show your content here once loading is done
+                                compilectx?.execOutput.pythonOutput
+                                    ? compilectx.execOutput.pythonOutput
+                                    : compilectx.execOutput.pythonErrors
+                            )}
+                        </p>
+                    </ScrollArea>
+                </div>
 
             </div>
 
@@ -79,25 +82,21 @@ const Terminal = () => {
                     </div>
                 </div>
                 <div className='h-full w-full flex flex-col p-2'>
-                    <p>~ Welcome to pyccel </p>
-                    <br />
-                    <p>
-                        {compilectx.isLoading ? (
-                            // Show loading text with three dots animation
-                            <span>Loading...</span>
-                        ) : (
-                            // Show your content here once loading is done
-                            compilectx?.execOutput.pyccelOutput
-                                ? compilectx.execOutput.pyccelOutput
-                                : compilectx.execOutput.pyccelErrors
-                        )}
-                    </p>
+                    <ScrollArea h={800}>
+                        <p>~ Welcome to pyccel </p>
+                        <br />
+                        <p className='flex'>
+                            {compilectx.isLoading ? (
+                                <span>Loading...</span>
+                            ) : (
+                                compilectx?.execOutput.pyccelOutput
+                                    ? compilectx.execOutput.pyccelOutput
+                                    : compilectx.execOutput.pyccelErrors
+                            )}
+                        </p>
+                    </ScrollArea>
                 </div>
-
             </div>
-
-
-
         </div>
     )
 }
