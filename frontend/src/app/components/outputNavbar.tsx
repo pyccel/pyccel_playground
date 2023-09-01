@@ -11,14 +11,10 @@ import {
   IconCode,
 } from "@tabler/icons-react";
 
-import { use, useEffect, useState } from "react";
 import { useUIContext } from "@/context/ui.context";
-import { ExecOutput, Output } from "@/global/types";
 import { useCompileContext } from "@/context/compile.context";
-import axios from "axios";
 import { DEFAULT_THEME, LoadingOverlay } from '@mantine/core'
 import { AiFillSave } from 'react-icons/ai'
-import { ExecOptions } from "child_process";
 
 const OutputNavbar = () => {
   const compilectx = useCompileContext();
@@ -30,8 +26,6 @@ const OutputNavbar = () => {
   }));
 
   const headerHeight = uictx.isMobile ? 100 : 60;
-
-
 
   const handleSubmit = async () => {
     compilectx.handleSubmit();

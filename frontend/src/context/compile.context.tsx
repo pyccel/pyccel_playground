@@ -101,14 +101,14 @@ const CompileContextProvider = ({ children }: { children: React.ReactNode }) => 
   
   const uiCtx = useUIContext();
 
-  const handleSelectChange = (selectedValue: string) => {
+  const handleSelectChange = useCallback((selectedValue: string) => {
     console.log("selected value", selectedValue);
     const selected = output.find((item) => item.PageTitle === selectedValue);
     if (selected) {
       setSelectedOutput(selected);
       console.log("selected output", selected);
     }
-  };
+  }, [output, setSelectedOutput]);
 
   const handleSubmit = useCallback(async () => {
     console.log("submitting");
