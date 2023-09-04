@@ -50,16 +50,18 @@ import {
       }),
       [isExtended, revIsExtended, isMobile, showTerminal, terminalExtended, terminalRevExtended]
     );
+
+   
     
-    // useEffect (() => {
-    //   if (window.innerWidth < 768) {
-    //     setIsMobile(true);
-    //   }
-    //   else {
-    //     setIsMobile(false);
-    //   }
-    // }
-    // , [window.innerWidth]);
+    useEffect (() => {
+      if (window.innerWidth < 1024) {
+        setIsMobile(true);
+      }
+      else {
+        setIsMobile(false);
+      }
+    }
+    , []);
 
   
     return <UIContext.Provider value={value}>{children}</UIContext.Provider>;

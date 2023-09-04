@@ -72,7 +72,7 @@ const OutputNavbar = () => {
           <LoadingOverlay loader={customLoader} visible />
         </Box>
       }
-      <Header height={headerHeight} px="md" sx={{ width: "100%" }} withBorder>
+      <Header height={headerHeight} px="md" sx={{ width: "100%" }} className=" md:h-52" withBorder>
         <Group position="apart" sx={{ height: "100%", width: "100%" }} className="w-full">
           <div className="flex gap-4">
             <Button
