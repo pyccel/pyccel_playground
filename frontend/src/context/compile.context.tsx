@@ -75,7 +75,7 @@ export const CompileContext = createContext<ICompileContext>(initialContext);
 const loadMetadata = async () => {
   try {
     const instance = axios.create({
-      baseURL: "http://localhost:8000",
+      baseURL: "http://64.226.113.251:8000/",
     });
     const response = await instance
       .get("/pyccel-version")
@@ -121,7 +121,7 @@ const CompileContextProvider = ({ children }: { children: React.ReactNode }) => 
           language: outLang,
         };
         const instance = axios.create({
-          baseURL: "http://localhost:8000",
+          baseURL: "http://64.226.113.251:8000/",
         });
         const response = await instance.post("/submit-python", requestData);
         console.log("this is submit resp", response.data);
@@ -166,7 +166,7 @@ const CompileContextProvider = ({ children }: { children: React.ReactNode }) => 
           language: outLang,
         };
         const instance = axios.create({
-          baseURL: "http://localhost:8000",
+          baseURL: "http://64.226.113.251:8000/",
         });
         const response = await instance.post("/execute-python", requestData);
         console.log("this is execute resp", response.data);
