@@ -30,8 +30,8 @@ const EditNavbar = () => {
 
   const headerHeight = uictx.isMobile ? 100 : 60;
 
-  const handleChangeLang = (e: string) => {
-    compilectx.setOutLang(e);
+  const handleChangeLang = (e: string | null | undefined) => {
+    compilectx.setOutLang(e || "");
     console.log("lang", e);
   };
 

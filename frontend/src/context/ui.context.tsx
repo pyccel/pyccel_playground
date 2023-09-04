@@ -3,6 +3,7 @@ import {
     SetStateAction,
     createContext,
     useContext,
+    useEffect,
     useMemo,
     useState,
   } from "react";
@@ -26,7 +27,7 @@ import {
 
   const UIContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [revIsExtended, setRevIsExtended] = useState(false);
-    const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+    const [isMobile, setIsMobile] = useState(false);
     const [isExtended, setIsExtended] = useState(false);
     const [showTerminal, setShowTerminal] = useState(false);
     const [terminalExtended, setTerminalExtended] = useState(false);
@@ -49,6 +50,17 @@ import {
       }),
       [isExtended, revIsExtended, isMobile, showTerminal, terminalExtended, terminalRevExtended]
     );
+    
+    // useEffect (() => {
+    //   if (window.innerWidth < 768) {
+    //     setIsMobile(true);
+    //   }
+    //   else {
+    //     setIsMobile(false);
+    //   }
+    // }
+    // , [window.innerWidth]);
+
   
     return <UIContext.Provider value={value}>{children}</UIContext.Provider>;
   };

@@ -135,12 +135,12 @@ const CompileContextProvider = ({ children }: { children: React.ReactNode }) => 
 
         console.log("outlang", outLang);
         if (outLang === "c") {
-          setSelectedOutput(outputArray.find((item) => item.PageTitle === "code_python.c")!);
+          setSelectedOutput(outputArray.find((item: any) => item.PageTitle === "code_python.c")!);
           setDefaultPage("code_python.c");
           // handleSelectChange("code_python.c");
         }
         if (outLang === "fortran") {
-          setSelectedOutput(outputArray.find((item) => item.PageTitle === "code_python.f90")!);
+          setSelectedOutput(outputArray.find((item: any) => item.PageTitle === "code_python.f90")!);
           setDefaultPage("code_python.f90");
           // handleSelectChange("code_python.f90");
         }

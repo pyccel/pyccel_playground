@@ -75,9 +75,9 @@ export default function Home() {
     }
   };
 
-  const handleChangeInput = (e: string) => {
+  const handleChangeInput = (e: string | undefined) => {
     console.log("this is the input", e);
-    compilectx.setInput(e);
+    compilectx.setInput(e || "");
   };
 
   return (
@@ -118,7 +118,7 @@ export default function Home() {
               value={compilectx.input}
               options={inOptions}
               onChange={(e) => handleChangeInput(e)}
-              editorDidMount={console.log}
+              // editorDidMount={console.log}
             />
           </div>
 
