@@ -163,7 +163,7 @@ const Navbar = () => {
               withinPortal
             >
               <HoverCard.Target>
-                <a href="" className={classes.link}>
+                <a href="#" className={classes.link}>
                   <Center inline>
                     <Box component="span" mr={5}>
                       About
