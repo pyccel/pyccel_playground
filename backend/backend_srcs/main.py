@@ -16,6 +16,7 @@ app = FastAPI()
 
 origins = [
     "http://localhost:3000",
+    "http://pyccel-playground.vercel.app",
 ]
 
 app.add_middleware(

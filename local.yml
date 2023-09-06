@@ -16,6 +16,17 @@ services:
     networks:
       - PyccelNetwork
 
+  backend:
+    container_name: pyccel-backend
+    build:
+      context: ./backend/.
+      dockerfile: ./Dockerfile
+      # network: host
+    ports:
+      - '8000:8000'
+    networks:
+      - PyccelNetwork
+
 networks:
   PyccelNetwork:
     driver: bridge
