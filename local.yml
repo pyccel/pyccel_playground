@@ -5,7 +5,7 @@ services:
     container_name: pyccel-front
     build:
       context: ./frontend/.
-      dockerfile: ../compose/front/Dockerfile
+      dockerfile: ./Dockerfile
       # network: host
     volumes:
       - ./frontend:/opt/app
