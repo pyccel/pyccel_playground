@@ -68,7 +68,8 @@ with open("./test_3.py", 'r') as f:
     code_3 = f.read()
 
 
-
+#TEST_APT = "http://64.226.113.251:8000/execute-python"
+TEST_APT = "http://localhost:8000/execute-python"
 
 @pytest.mark.anyio
 async def test_post_1():
@@ -78,7 +79,7 @@ async def test_post_1():
     }
     print(code_2)
     async with AsyncClient() as session:
-        response = await session.post("http://localhost:8000/execute-python", json=data, timeout = 30)
+        response = await session.post(TEST_APT, json=data, timeout = 300)
     assert response.status_code == 200
     #assert response.json() == {"key": "value"}
     print(response.json())
@@ -92,7 +93,7 @@ async def test_post_2():
     }
     print(code_2)
     async with AsyncClient() as session:
-        response = await session.post("http://localhost:8000/execute-python", json=data, timeout = 30)
+        response = await session.post(TEST_APT, json=data, timeout = 300)
     assert response.status_code == 200
     #assert response.json() == {"key": "value"}
     print(response.json())
@@ -106,7 +107,7 @@ async def test_post_3():
     }
     print(code_2)
     async with AsyncClient() as session:
-        response = await session.post("http://localhost:8000/execute-python", json=data, timeout = 30)
+        response = await session.post(TEST_APT, json=data, timeout = 300)
     assert response.status_code == 200
     #assert response.json() == {"key": "value"}
     print(response.json())
