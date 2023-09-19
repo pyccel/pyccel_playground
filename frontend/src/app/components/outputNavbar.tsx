@@ -101,7 +101,7 @@ const OutputNavbar = () => {
             onChange={compilectx.handleSelectChange}
             transitionProps={{ transition: 'pop-top-left', duration: 80, timingFunction: 'ease' }}
             withinPortal
-            defaultValue={compilectx.outLang === "c" ? "code_python.c" : "code_python.f90"}
+            defaultValue={compilectx.defaultPage}
           />
 
         </Group>

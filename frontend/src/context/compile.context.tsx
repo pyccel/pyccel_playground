@@ -75,7 +75,7 @@ export const CompileContext = createContext<ICompileContext>(initialContext);
 const loadMetadata = async () => {
   try {
     const instance = axios.create({
-      baseURL: "http://64.226.113.251:8000/",
+      baseURL: "http://localhost:8000/"
     });
     const response = await instance
       .get("/pyccel-version")
@@ -98,7 +98,7 @@ const CompileContextProvider = ({ children }: { children: React.ReactNode }) => 
   const [selectedOutput, setSelectedOutput] = useState<Output>(initialContext.selectedOutput);
   const [execOutput, setExecOutput] = useState<ExecOutput>(initialContext.execOutput);
   const [isLoading, setIsLoading] = useState(initialContext.isLoading);
-  
+  const { BASE_URL, VERSION, TRANSLATE, EXECUTE } = process.env;
   const uiCtx = useUIContext();
 
   const handleSelectChange = useCallback((selectedValue: string) => {
@@ -121,29 +121,25 @@ const CompileContextProvider = ({ children }: { children: React.ReactNode }) => 
           language: outLang,
         };
         const instance = axios.create({
-          baseURL: "http://64.226.113.251:8000/",
+          baseURL: "http://localhost:8000/"
         });
         const response = await instance.post("/submit-python", requestData);
         console.log("this is submit resp", response.data);
+        // console.log("default page", defaultPage);
+        if (response.data.files.length === 0) {
+          alert(response.data.Error);
+        }
+        const outputArray = response.data.files.map((item: any) => {
+          return {
+            PageTitle: item.FileName,
+            PageContent: item.Content,
+          };
+        }
 
-        const outputArray = response.data.map((item: any) => ({
-          PageTitle: item.FileName,
-          PageContent: item.Content,
-        }));
-
+        );
+        const defaultPage = response.data.Default[0].FileNameDefault;
+        setDefaultPage(defaultPage);
         setOutput(outputArray);
-
-        console.log("outlang", outLang);
-        if (outLang === "c") {
-          setSelectedOutput(outputArray.find((item: any) => item.PageTitle === "code_python.c")!);
-          setDefaultPage("code_python.c");
-          // handleSelectChange("code_python.c");
-        }
-        if (outLang === "fortran") {
-          setSelectedOutput(outputArray.find((item: any) => item.PageTitle === "code_python.f90")!);
-          setDefaultPage("code_python.f90");
-          // handleSelectChange("code_python.f90");
-        }
       } catch (error) {
         console.error(error);
       } finally {
@@ -153,7 +149,7 @@ const CompileContextProvider = ({ children }: { children: React.ReactNode }) => 
     else {
       alert("Please fill all the fields");
     }
-  }, [outLang, input, setIsLoading, setOutput, setSelectedOutput]);
+  }, [outLang, input, setIsLoading, setOutput, setDefaultPage]);
 
   const handleExecute = useCallback(async () => {
     console.log("running");
@@ -166,7 +162,7 @@ const CompileContextProvider = ({ children }: { children: React.ReactNode }) => 
           language: outLang,
         };
         const instance = axios.create({
-          baseURL: "http://64.226.113.251:8000/",
+          baseURL: BASE_URL,
         });
         const response = await instance.post("/execute-python", requestData);
         console.log("this is execute resp", response.data);
@@ -213,8 +209,9 @@ const CompileContextProvider = ({ children }: { children: React.ReactNode }) => 
       handleSubmit,
       handleExecute,
       handleSelectChange,
+
     }),
-    [isFilled, input, output, defaultPage, outLang, selectedOutput, isLoading, metadata, execOutput, handleSubmit, handleExecute, handleSelectChange]
+    [isFilled, input, output, defaultPage, outLang, selectedOutput, isLoading, metadata, execOutput, handleSubmit, handleExecute, handleSelectChange,setDefaultPage]
   );
 
   useEffect(() => {
