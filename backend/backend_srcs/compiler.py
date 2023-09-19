@@ -52,15 +52,16 @@ def read_files_to_json(directory, file_types):
 
   all_files = glob.glob(f"{directory}/**/*")
   all_files += glob.glob(f"{directory}/*")
-  #print(all_files)
   files = [i for i in all_files if i.endswith('.h') or i.endswith('.c') or i.endswith('.f90')]
   data = []
   for file in files:
     with open(file) as fp:
       filename_s =  re.sub("^.*?/__pyccel__/", "", file)
       data.append({"FileName": filename_s, "Content": fp.read()})
-
   return data
+
+
+
 class Compiler():
     """
     A class that encapsulates the functionality of compiling Python code to other languages using Pyccel.
@@ -149,14 +150,29 @@ class Compiler():
         Returns:
         A JSON object containing the Translated files.
         """
+
         self.language = language
         file_types = ["c", "h", "f90", "py"]
         command_builder = f"pyccel {self.file_path} --language {language}"
-        print(command_builder)
-        os.system(command_builder)
+        print(command_builder, "=====================================")
+        pyccel_exit_, pyccel_error_, pyccel_execution_ =  execute_command_with_timeout(command_builder, 30)
+
         self.sources_dir = f"{self.folder_path}/__pyccel__"
-        response = read_files_to_json(self.sources_dir, file_types)
-        return response
+        files = read_files_to_json(self.sources_dir, file_types)
+
+        data_default = []
+
+        for file in files:
+          if file["FileName"] in ( 'prog_code_python.c' , 'prog_code_python.f90'):
+              data_default.append({"FileNameDefault": file["FileName"], "ContentDefault": file["Content"]})
+          elif file["FileName"] in ( 'code_python.f90' , 'code_python.c'):
+              data_default.append( {"FileNameDefault": file["FileName"], "ContentDefault": file["Content"]})
+        data = {
+          "files" : files,
+          "Default" : data_default,
+          "Error" : str(pyccel_execution_)
+        }
+        return data
 
     def Cleanup(self):
         """
@@ -178,7 +194,8 @@ def Backend_compiler(input: str, language: str):
     """
     response = ""
     d = Compiler()
-    d.Load_Python(input)
+    d.Load_Python(input)  #print(all_files)
+
     response = d.Compile_it(language)
     d.Cleanup()
     return response

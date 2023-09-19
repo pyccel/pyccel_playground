@@ -5,7 +5,7 @@ services:
     container_name: pyccel-front
     build:
       context: ./frontend/.
-      dockerfile: ../compose/front/Dockerfile
+      dockerfile: ./Dockerfile
       # network: host
     volumes:
       - ./frontend:/opt/app
@@ -13,6 +13,17 @@ services:
       - /opt/app/.next
     ports:
       - '3000:3000'
+    networks:
+      - PyccelNetwork
+
+  backend:
+    container_name: pyccel-backend
+    build:
+      context: ./backend/.
+      dockerfile: ./Dockerfile
+      # network: host
+    ports:
+      - '8000:8000'
     networks:
       - PyccelNetwork
 

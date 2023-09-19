@@ -10,3 +10,5 @@ ENV NODE_ENV=development
 COPY package.json *.lock ./
 RUN yarn install --frozen-lockfile
 CMD ["yarn", "dev"]
+
+

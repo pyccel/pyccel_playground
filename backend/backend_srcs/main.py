@@ -16,6 +16,7 @@ app = FastAPI()
 
 origins = [
     "http://localhost:3000",
+    "http://pyccel-playground.vercel.app",
 ]
 
 app.add_middleware(
@@ -88,8 +89,9 @@ async def execute_python(item : Item):
             detail="Invalid language. Supported languages are: c, fortran, python.",
         )
 
-    #response = await compiler.Backend_compiler(item.text, item.language)
-    response = await Executor(item.text, item.language)
-    if not response:
-        return {"PyccelBackend:": "Backend Couldn't Compile the code"}
+    # #response = await compiler.Backend_compiler(item.text, item.language)
+    # response = await Executor(item.text, item.language)
+    # if not response:
+    #     return {"PyccelBackend:": "Backend Couldn't Compile the code"}
+    response = "This Feature need more optimized server"
     return response
