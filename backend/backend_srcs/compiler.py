@@ -13,10 +13,8 @@ import glob
 import json
 import re
 import subprocess
-import asyncio
-import time
 
-async def execute_command_with_timeout(command, timeout):
+def execute_command_with_timeout(command, timeout):
   """Executes the given command with a timeout of 30 seconds.
 
   Args:
@@ -26,30 +24,19 @@ async def execute_command_with_timeout(command, timeout):
   Returns:
     A tuple of the exit code, standard output, and error output of the command.
   """
+  import subprocess
+  import time
 
   process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE)
   try:
-      process = await asyncio.create_subprocess_shell(
-          command,
-          stdout=asyncio.subprocess.PIPE,
-          stderr=asyncio.subprocess.PIPE,
-      )
-
-      stdout, stderr = await asyncio.wait_for(
-          process.communicate(), timeout=timeout
-      )
-
-      exit_code = process.returncode
-      error = stderr.decode()
-      output = stdout.decode()
-  except asyncio.TimeoutError:
-      exit_code = -1
-      error = f"The command timed out after {timeout} seconds."
-      output = None
-
+    output, error = process.communicate(timeout=timeout)
+    exit_code = process.returncode
+  except subprocess.TimeoutExpired:
+    exit_code = -1
+    output = None
+    error = f"The command timed out after {timeout} seconds."
   return exit_code, error, output
-
 
 def read_files_to_json(directory, file_types):
   """
@@ -74,6 +61,7 @@ def read_files_to_json(directory, file_types):
   return data
 
 
+
 class Compiler():
     """
     A class that encapsulates the functionality of compiling Python code to other languages using Pyccel.
@@ -89,7 +77,7 @@ class Compiler():
     """
     def __init__(self):
         self.folder_name = f"Pyccel_{str(hash(self))}"
-        self.language = "c"
+
     def Load_Python(self, input :str):
         """
         Loads a Python file from input.
@@ -103,8 +91,7 @@ class Compiler():
         os.mkdir(self.folder_path)
         with open(self.file_path,'w') as my_file:
             my_file.write(input)
-
-    async def Execute_it(self):
+    def Execute_it(self):
         """
           Executing the script python
           check if the json have a security breach
@@ -128,13 +115,13 @@ class Compiler():
         pyccel_command = f"{self.folder_path}/code_python"
         command_builder = f"pyccel {self.file_path} --language {self.language}"
 
-        security_exit, security_error, security_execition = await execute_command_with_timeout(bandit_command, 30)
+        security_exit, security_error, security_execition = execute_command_with_timeout(bandit_command, 30)
         print(f"security_exit {security_exit}")
         if security_exit == 0:
           security_error = "Safe"
-          pyccel_exit_, pyccel_error_, pyccel_execution_ = await execute_command_with_timeout(command_builder, 30)
-          pyccel_exit, pyccel_error, pyccel_execution = await execute_command_with_timeout(pyccel_command, 30)
-          python_exit, python_error, python_execution = await execute_command_with_timeout(python_command, 30)
+          pyccel_exit_, pyccel_error_, pyccel_execution_ =  execute_command_with_timeout(command_builder, 30)
+          pyccel_exit, pyccel_error, pyccel_execution =  execute_command_with_timeout(pyccel_command, 30)
+          python_exit, python_error, python_execution = execute_command_with_timeout(python_command, 30)
         else:
           security_error = "Fatal"
 
@@ -153,7 +140,7 @@ class Compiler():
         }
         return data
 
-    async def Compile_it(self, language :str):
+    def Compile_it(self, language :str):
         """
         Translate the Python file to another language using Pyccel.
 
@@ -163,14 +150,29 @@ class Compiler():
         Returns:
         A JSON object containing the Translated files.
         """
+
         self.language = language
         file_types = ["c", "h", "f90", "py"]
         command_builder = f"pyccel {self.file_path} --language {language}"
-        print(command_builder)
-        os.system(command_builder)
+        print(command_builder, "=====================================")
+        pyccel_exit_, pyccel_error_, pyccel_execution_ =  execute_command_with_timeout(command_builder, 30)
+
         self.sources_dir = f"{self.folder_path}/__pyccel__"
-        response = read_files_to_json(self.sources_dir, file_types)
-        return response
+        files = read_files_to_json(self.sources_dir, file_types)
+
+        data_default = []
+
+        for file in files:
+          if file["FileName"] in ( 'prog_code_python.c' , 'prog_code_python.f90'):
+              data_default.append({"FileNameDefault": file["FileName"], "ContentDefault": file["Content"]})
+          elif file["FileName"] in ( 'code_python.f90' , 'code_python.c'):
+              data_default.append( {"FileNameDefault": file["FileName"], "ContentDefault": file["Content"]})
+        data = {
+          "files" : files,
+          "Default" : data_default,
+          "Error" : str(pyccel_execution_)
+        }
+        return data
 
     def Cleanup(self):
         """
@@ -179,7 +181,7 @@ class Compiler():
         if os.path.exists(self.folder_path):
             os.system("rm -r {}".format(self.folder_path))
 
-async def Backend_compiler(input: str, language: str):
+def Backend_compiler(input: str, language: str):
     """
     Compiles Python code to another language using Pyccel and returns the results.
 
@@ -192,12 +194,13 @@ async def Backend_compiler(input: str, language: str):
     """
     response = ""
     d = Compiler()
-    d.Load_Python(input)
-    response = await d.Compile_it(language)
+    d.Load_Python(input)  #print(all_files)
+
+    response = d.Compile_it(language)
     d.Cleanup()
     return response
 
-async def Backend_Executer(input: str, language: str):
+def Backend_Executer(input: str, language: str):
     """
     Compiles Python code to another language using Pyccel and returns the results.
 
@@ -212,12 +215,12 @@ async def Backend_Executer(input: str, language: str):
     d = Compiler()
     d.Load_Python(input)
     response = d.Compile_it(language)
-    data = await d.Execute_it()
+    data = d.Execute_it()
     print(data)
     d.Cleanup()
     return data
 
-async def Pyccel_version():
+def Pyccel_version():
     """
     Returns the version of Pyccel.
 
@@ -236,14 +239,7 @@ async def Pyccel_version():
 
 
 
-
 # if __name__ == '__main__':
-#     with open("../hacker.py", 'r') as f:
-#         string = f.read()
-    
-#     # Create an asyncio event loop and run the Backend_Executer function
-#     loop = asyncio.get_event_loop()
-#     result = loop.run_until_complete(Backend_Executer(string, 'c'))
-    
-#     # Now you can work with the 'result' JSON data as needed
-#     #print(result)
+#     with open("/home/testing/hacker.py",'r') as f:
+#       string = f.read()
+#       Backend_Executer(string, 'c')
