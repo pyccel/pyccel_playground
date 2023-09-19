@@ -81,12 +81,15 @@ const OutputNavbar = () => {
               leftIcon={<AiFillSave className="text-2xl" />}
               onClick={() => handleSubmit()}
             >
-              save</Button>
+              Translate</Button>
             <Button
               variant="outline"
               color="gray"
               leftIcon={<IconCode />}
-              onClick={() => handleExecute()}
+              onClick={() => {
+                // handleExecute()
+                alert("Coming Soon . . . ")
+              }}
             >
               Execute
             </Button>

@@ -32,6 +32,7 @@ import {
   IconChevronDown,
 } from "@tabler/icons-react";
 import Link from "next/link";
+import Image from "next/image";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -126,18 +127,18 @@ const Navbar = () => {
   const links = mockdata.map((item) => (
     <UnstyledButton className={classes.subLink} key={item.title}>
       <Group noWrap >
-      <a href="https://github.com/mbifenzi/pyccel-playground" target="_blank" rel="noopener noreferrer" className=" flex gap-2">
-        <ThemeIcon size={34} variant="default" radius="md">
-          <item.icon size={rem(22)} color={theme.fn.primaryColor()} />
-        </ThemeIcon>
-        <div>
-          <Text size="sm" fw={500}>
-            {item.title}
-          </Text>
-          <Text size="xs" color="dimmed">
-            {item.description}
-          </Text>
-        </div>
+        <a href="https://github.com/mbifenzi/pyccel-playground" target="_blank" rel="noopener noreferrer" className=" flex gap-2">
+          <ThemeIcon size={34} variant="default" radius="md">
+            <item.icon size={rem(22)} color={theme.fn.primaryColor()} />
+          </ThemeIcon>
+          <div>
+            <Text size="sm" fw={500}>
+              {item.title}
+            </Text>
+            <Text size="xs" color="dimmed">
+              {item.description}
+            </Text>
+          </div>
         </a>
       </Group>
     </UnstyledButton>
@@ -147,7 +148,10 @@ const Navbar = () => {
     <Box >
       <Header height={60} px="md">
         <Group position="apart" sx={{ height: "100%" }}>
-          <h1 className="text-xl font-bold">Pyccel <span className="text-xs">{ctx.metadata}</span></h1>
+          <div className="flex text-xl font-bold align-bottom items-end gap-2">
+            <Image src="https://cdn.discordapp.com/attachments/1100432487894753290/1153640347755348009/pyccel_logo.png" alt="pyccel logo" width={40} height={40} />
+             <span className="text-xs align-bottom">Pyccel{' '}{ctx.metadata}</span>
+          </div>
 
           <Group
             sx={{ height: "100%" }}
