@@ -121,7 +121,7 @@ const CompileContextProvider = ({ children }: { children: React.ReactNode }) => 
           language: outLang,
         };
         const instance = axios.create({
-          baseURL: "http://localhost:8000/"
+          baseURL: "http://64.226.113.251:8000/"
         });
         const response = await instance.post("/submit-python", requestData);
         console.log("this is submit resp", response.data);
