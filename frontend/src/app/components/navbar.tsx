@@ -127,7 +127,7 @@ const Navbar = () => {
   const links = mockdata.map((item) => (
     <UnstyledButton className={classes.subLink} key={item.title}>
       <Group noWrap >
-        <a href="https://github.com/mbifenzi/pyccel-playground" target="_blank" rel="noopener noreferrer" className=" flex gap-2">
+        <a href="http://github.com/pyccel/pyccel" target="_blank" rel="noopener noreferrer" className=" flex gap-2">
           <ThemeIcon size={34} variant="default" radius="md">
             <item.icon size={rem(22)} color={theme.fn.primaryColor()} />
           </ThemeIcon>
