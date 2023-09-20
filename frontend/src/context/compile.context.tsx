@@ -232,7 +232,7 @@ const CompileContextProvider = ({ children }: { children: React.ReactNode }) => 
         })
 
     }
-  }, [metadata]);
+  }, []);
 
   // update 
 
