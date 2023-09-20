@@ -137,8 +137,9 @@ const CompileContextProvider = ({ children }: { children: React.ReactNode }) => 
           };
         }
         );
-        setSelectedOutput(response.data.Default[0].ContentDefault);
-      
+        const selectedOutput = response.data.Default[0];
+        setSelectedOutput({ PageTitle: selectedOutput.FileNameDefault, PageContent: selectedOutput.ContentDefault });
+        console.log("this is the selected output", selectedOutput);
         const defaultPage = response.data.Default[0].FileNameDefault;
         setDefaultPage(defaultPage);
         console.log("this is the default page = = = ==   >", defaultPage);
@@ -153,7 +154,7 @@ const CompileContextProvider = ({ children }: { children: React.ReactNode }) => 
     else {
       alert("Please fill all the fields");
     }
-  }, [outLang, input]);
+  }, [outLang, input, setDefaultPage, setSelectedOutput, setOutput, setIsLoading]);
 
   const handleExecute = useCallback(async () => {
     console.log("running");

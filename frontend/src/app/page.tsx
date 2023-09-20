@@ -80,6 +80,11 @@ export default function Home() {
     console.log("this is the input", e);
     compilectx.setInput(e || "");
   };
+  const [selected, setSelected] = useState<string>("");
+  useEffect(() => {
+    console.log("this is the selected output in use effect", compilectx.selectedOutput.PageContent);
+    setSelected(compilectx.selectedOutput.PageTitle);
+  }, [compilectx.selectedOutput]);
   return (
     <main className="flex w-full h-[calc(100vh-4rem)]">
       {
@@ -118,7 +123,7 @@ export default function Home() {
               value={compilectx.input}
               options={inOptions}
               onChange={(e) => handleChangeInput(e)}
-            // editorDidMount={console.log}
+              // editorDidMount={console.log}
             />
           </div>
 
@@ -139,31 +144,17 @@ export default function Home() {
               </div>
             </div>
             <OutputNavbar />
-            {
-              compilectx.defaultPage ?
-                <Editor
-                  width="100%"
-                  height="100%"
-                  language="python"
-                  theme="vs-dark"
-                  value={compilectx.selectedOutput.PageContent}
-                  options={outOptions}
-                // onChange={console.log}
-                // editorDidMount={console.log}
-                />
-                :
-                <Editor
-                  width="100%"
-                  height="100%"
-                  language="python"
-                  theme="vs-dark"
-                  value="// nothing to show"
-                  options={outOptions}
-                // onChange={console.log}
-                // editorDidMount={console.log}
-                />
-            }
-
+            
+            <Editor
+              width="100%"
+              height="100%"
+              language="python"
+              theme="vs-dark"
+              value={compilectx.selectedOutput.PageContent}
+              options={outOptions}
+            // onChange={console.log}
+            // editorDidMount={console.log}
+            />
 
           </div>
 
