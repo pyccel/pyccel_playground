@@ -107,7 +107,7 @@ const CompileContextProvider = ({ children }: { children: React.ReactNode }) => 
     if (selected) {
       setSelectedOutput(selected);
       console.log("selected output", selected);
-      setDefaultPage("");
+      // setDefaultPage("");
     }
   }, [output, setSelectedOutput]);
 
