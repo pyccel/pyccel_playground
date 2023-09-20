@@ -107,6 +107,7 @@ const CompileContextProvider = ({ children }: { children: React.ReactNode }) => 
     if (selected) {
       setSelectedOutput(selected);
       console.log("selected output", selected);
+      setDefaultPage("");
     }
   }, [output, setSelectedOutput]);
 
@@ -135,10 +136,13 @@ const CompileContextProvider = ({ children }: { children: React.ReactNode }) => 
             PageContent: item.Content,
           };
         }
-
         );
+        setSelectedOutput(response.data.Default[0].ContentDefault);
+      
         const defaultPage = response.data.Default[0].FileNameDefault;
         setDefaultPage(defaultPage);
+        console.log("this is the default page = = = ==   >", defaultPage);
+        // console.log("this is the default page = = = ==   >", response.data.Default[0].ContentDefault);
         setOutput(outputArray);
       } catch (error) {
         console.error(error);
@@ -149,7 +153,7 @@ const CompileContextProvider = ({ children }: { children: React.ReactNode }) => 
     else {
       alert("Please fill all the fields");
     }
-  }, [outLang, input, setIsLoading, setOutput, setDefaultPage]);
+  }, [outLang, input]);
 
   const handleExecute = useCallback(async () => {
     console.log("running");
@@ -184,7 +188,7 @@ const CompileContextProvider = ({ children }: { children: React.ReactNode }) => 
     else {
       alert("Please fill all the fields");
     }
-  }, [outLang, input, setIsLoading, setExecOutput]);
+  }, [outLang, input, uiCtx, BASE_URL]);
 
   const value = useMemo(
     () => ({
@@ -211,7 +215,7 @@ const CompileContextProvider = ({ children }: { children: React.ReactNode }) => 
       handleSelectChange,
 
     }),
-    [isFilled, input, output, defaultPage, outLang, selectedOutput, isLoading, metadata, execOutput, handleSubmit, handleExecute, handleSelectChange,setDefaultPage]
+    [isFilled, input, output, defaultPage, outLang, selectedOutput, isLoading, metadata, execOutput, handleSubmit, handleExecute, handleSelectChange, setDefaultPage]
   );
 
   useEffect(() => {
@@ -227,7 +231,7 @@ const CompileContextProvider = ({ children }: { children: React.ReactNode }) => 
         })
 
     }
-  }, []); 
+  }, [metadata]);
 
   // update 
 

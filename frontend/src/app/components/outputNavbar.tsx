@@ -15,6 +15,7 @@ import { useUIContext } from "@/context/ui.context";
 import { useCompileContext } from "@/context/compile.context";
 import { DEFAULT_THEME, LoadingOverlay } from '@mantine/core'
 import { AiFillSave } from 'react-icons/ai'
+import { use, useEffect, useState } from "react";
 
 const OutputNavbar = () => {
   const compilectx = useCompileContext();
@@ -62,8 +63,7 @@ const OutputNavbar = () => {
     </svg>
 
   );
-
-
+  const [dfPage, setDfPage] = useState<string>("null");
 
   return (
     <Box className="w-full">
@@ -79,7 +79,11 @@ const OutputNavbar = () => {
               variant="outline"
               color="gray"
               leftIcon={<AiFillSave className="text-2xl" />}
-              onClick={() => handleSubmit()}
+              onClick={() => {
+                setDfPage("nothing");
+                handleSubmit();
+              }
+              }
             >
               Translate</Button>
             <Button
@@ -95,15 +99,42 @@ const OutputNavbar = () => {
             </Button>
           </div>
 
-          <Select
-            placeholder="Pick a Page"
-            data={options}
-            onChange={compilectx.handleSelectChange}
-            transitionProps={{ transition: 'pop-top-left', duration: 80, timingFunction: 'ease' }}
-            withinPortal
-            defaultValue={compilectx.defaultPage}
-          />
+          {compilectx.defaultPage === "code_python.c" && (
+            <Select
+              placeholder="Pick a Page"
+              data={options}
+              onChange={compilectx.handleSelectChange}
+              transitionProps={{ transition: 'pop-top-left', duration: 80, timingFunction: 'ease' }}
+              withinPortal
+              defaultValue="code_python.c"
 
+            />
+          )
+          }
+          {
+            compilectx.defaultPage === "code_python.f90" && (
+              <Select
+                placeholder="Pick a Page"
+                data={options}
+                onChange={compilectx.handleSelectChange}
+                transitionProps={{ transition: 'pop-top-left', duration: 80, timingFunction: 'ease' }}
+                withinPortal
+                defaultValue="code_python.f90"
+
+              />
+            )
+          }
+          {
+            !compilectx.defaultPage && (
+              <Select
+                placeholder="Pick a Page"
+                data={options}
+                onChange={compilectx.handleSelectChange}
+                transitionProps={{ transition: 'pop-top-left', duration: 80, timingFunction: 'ease' }}
+                withinPortal
+              />
+            )
+          }
         </Group>
       </Header>
     </Box>

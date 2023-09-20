@@ -3,7 +3,7 @@ import Image from 'next/image'
 import EditNavbar from './components/editorNavbar'
 import OutputNavbar from './components/outputNavbar'
 // import MonacoEditor from 'react-monaco-editor';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useUIContext } from '../context/ui.context';
 import { Button } from '@mantine/core';
 import { AiOutlineFullscreen, AiOutlineFullscreenExit } from 'react-icons/ai';
@@ -61,6 +61,7 @@ export default function Home() {
   };
   const uictx = useUIContext();
   const compilectx = useCompileContext();
+  // const [dfPage , setDfPage] = useState<string>("");
   const handleExtend = () => {
     uictx.setIsExtended(!uictx.isExtended);
     if (uictx.revIsExtended) {
@@ -79,7 +80,6 @@ export default function Home() {
     console.log("this is the input", e);
     compilectx.setInput(e || "");
   };
-
   return (
     <main className="flex w-full h-[calc(100vh-4rem)]">
       {
@@ -118,7 +118,7 @@ export default function Home() {
               value={compilectx.input}
               options={inOptions}
               onChange={(e) => handleChangeInput(e)}
-              // editorDidMount={console.log}
+            // editorDidMount={console.log}
             />
           </div>
 
@@ -135,20 +135,35 @@ export default function Home() {
                 <FaExpandAlt className="text-black transition opacity-0 w-2 h-2 group-hover:opacity-100" onClick={() => handleRevExtend()} />
               </div>
               <div className='flex flex-grow justify-center text-white'>
-                <p className='font-bold text-sm'> {compilectx.outLang === "c" ? "File.c" : compilectx.outLang === "fortran" ? "File.f90" : "file.txt"}</p>
+                <p className='font-bold text-sm'> {compilectx.selectedOutput.PageTitle}</p>
               </div>
             </div>
             <OutputNavbar />
-            <Editor
-              width="100%"
-              height="100%"
-              language="python"
-              theme="vs-dark"
-              value={compilectx.selectedOutput.PageContent}
-              options={outOptions}
-            // onChange={console.log}
-            // editorDidMount={console.log}
-            />
+            {
+              compilectx.defaultPage ?
+                <Editor
+                  width="100%"
+                  height="100%"
+                  language="python"
+                  theme="vs-dark"
+                  value={compilectx.selectedOutput.PageContent}
+                  options={outOptions}
+                // onChange={console.log}
+                // editorDidMount={console.log}
+                />
+                :
+                <Editor
+                  width="100%"
+                  height="100%"
+                  language="python"
+                  theme="vs-dark"
+                  value="// nothing to show"
+                  options={outOptions}
+                // onChange={console.log}
+                // editorDidMount={console.log}
+                />
+            }
+
 
           </div>
 
