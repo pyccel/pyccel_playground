@@ -6,11 +6,13 @@ services:
     build:
       context: ./frontend/.
       dockerfile: ./Dockerfile
+    env_file:
+      - .env
       # network: host
-    volumes:
-      - ./frontend:/opt/app
-      - /opt/app/node_modules
-      - /opt/app/.next
+    # volumes:
+    #   - ./frontend:/opt/app
+    #   - /opt/app/node_modules
+    #   - /opt/app/.next
     ports:
       - '3000:3000'
     networks:

@@ -22,12 +22,6 @@ const EditNavbar = () => {
 
 
 
-
-  // useEffect(() => {
-  //   console.log("output", compilectx.output);
-  // }
-  //   , [compilectx.output]);
-
   const headerHeight = uictx.isMobile ? 100 : 60;
 
   const handleChangeLang = (e: string | null | undefined) => {
