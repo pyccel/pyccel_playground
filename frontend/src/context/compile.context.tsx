@@ -75,7 +75,7 @@ export const CompileContext = createContext<ICompileContext>(initialContext);
 const loadMetadata = async () => {
   try {
     const instance = axios.create({
-      baseURL: "http://localhost:8000/"
+      baseURL: "http://64.226.113.251:8000/"
     });
     const response = await instance
       .get("/pyccel-version")

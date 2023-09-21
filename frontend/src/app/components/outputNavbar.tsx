@@ -99,6 +99,30 @@ const OutputNavbar = () => {
             </Button>
           </div>
 
+          {compilectx.defaultPage === "prog_code_python.f90" && (
+            <Select
+              placeholder="Pick a Page"
+              data={options}
+              onChange={compilectx.handleSelectChange}
+              transitionProps={{ transition: 'pop-top-left', duration: 80, timingFunction: 'ease' }}
+              withinPortal
+              defaultValue="prog_code_python.f90"
+
+            />
+          )
+          }
+          {compilectx.defaultPage === "prog_code_python.c" && (
+            <Select
+              placeholder="Pick a Page"
+              data={options}
+              onChange={compilectx.handleSelectChange}
+              transitionProps={{ transition: 'pop-top-left', duration: 80, timingFunction: 'ease' }}
+              withinPortal
+              defaultValue="prog_code_python.c"
+
+            />
+          )
+          }
           {compilectx.defaultPage === "code_python.c" && (
             <Select
               placeholder="Pick a Page"
