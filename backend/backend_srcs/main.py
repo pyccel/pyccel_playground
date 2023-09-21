@@ -16,6 +16,8 @@ app = FastAPI()
 
 origins = [
     "http://localhost:3000",
+    "https://localhost:3000",
+    "https://localhost",
     "http://pyccel-playground.vercel.app",
     "https://pyccel-playground.vercel.app",
 ]

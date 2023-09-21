@@ -29,6 +29,22 @@ services:
     networks:
       - PyccelNetwork
 
+  nginx-ssl-proxy:
+    container_name: pyccel-nginx
+    build:
+      context: ./nginx/.
+      dockerfile: ./Dockerfile
+    restart: always
+    environment:
+      PROXY_ADDRESS: http://front:3000
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/etc/letsencrypt"
+    networks:
+      - PyccelNetwork
+
 networks:
   PyccelNetwork:
     driver: bridge

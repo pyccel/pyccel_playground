@@ -5,7 +5,7 @@ WORKDIR /opt/app
 
 ENV PORT=3000
 ENV HOST=0.0.0.0
-ENV NODE_ENV=development
+ENV NODE_ENV=production
 COPY . /opt/app/frontend/
 WORKDIR /opt/app/frontend
 
