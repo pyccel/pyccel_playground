@@ -165,8 +165,11 @@ class Compiler():
         for file in files:
           if file["FileName"] in ( 'prog_code_python.c' , 'prog_code_python.f90'):
               data_default.append({"FileNameDefault": file["FileName"], "ContentDefault": file["Content"]})
-          elif file["FileName"] in ( 'code_python.f90' , 'code_python.c'):
-              data_default.append( {"FileNameDefault": file["FileName"], "ContentDefault": file["Content"]})
+              break;
+        if len(data_default) == 0:
+            for file in files:
+                if file["FileName"] in ( 'code_python.f90' , 'code_python.c'):
+                    data_default.append( {"FileNameDefault": file["FileName"], "ContentDefault": file["Content"]})
         data = {
           "files" : files,
           "Default" : data_default,
