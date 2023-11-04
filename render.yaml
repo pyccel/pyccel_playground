@@ -1,9 +1,0 @@
-services:
-  - type: web
-    name: pyccel-front
-    runtime: docker
-    rootDir: ./frontend/
-  - type: worker
-    name: pyccel-back
-    runtime: docker
-    rootDir: ./backend/
